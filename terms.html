@@ -5,26 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms of Service - WhoLikedThat</title>
     <style>
-        body { font-family: system-ui, sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 0 20px; color: #333; }
-        h1, h2 { color: #111; }
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #25f4ee;
+            --accent-pink: #fe2c55;
+            --border: #334155;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.7;
+            margin: 0;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-top: 0;
+            background: linear-gradient(135deg, var(--accent), var(--accent-pink));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            color: var(--accent);
+            margin-top: 2rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        p, li {
+            color: #cbd5e1;
+            font-size: 0.98rem;
+        }
+
+        .last-updated {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--accent-pink);
+            text-decoration: underline;
+        }
+
+        .footer-link {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            font-size: 0.875rem;
+        }
     </style>
 </head>
 <body>
-    <h1>Terms of Service</h1>
-    <p>Last updated: September 2026</p>
+    <div class="container">
+        <h1>Terms of Service</h1>
+        <div class="last-updated">Last updated: September 2026</div>
 
-    <p>Welcome to <strong>WhoLikedThat</strong>. By accessing or using our application, you agree to comply with and be bound by the following terms and conditions.</p>
+        <p>Welcome to <strong>WhoLikedThat</strong>. By accessing or playing our game, you agree to comply with and be bound by the following terms and conditions.</p>
 
-    <h2>1. Use of the Application</h2>
-    <p>WhoLikedThat is a tool designed to allow users to query and organize their own TikTok interaction history using exclusively the official application programming interfaces (APIs) provided by TikTok.</p>
+        <h2>1. Description of Service</h2>
+        <p>WhoLikedThat is a Kahoot-style party game that allows groups of friends to guess interactions (likes, favorites, and shares) across TikTok videos using official TikTok APIs.</p>
 
-    <h2>2. User Account and Authentication</h2>
-    <p>To use the application, you must sign in with your TikTok account via the official OAuth flow. You are responsible for maintaining the security of your account credentials.</p>
+        <h2>2. User Accounts & OAuth</h2>
+        <p>To participate in game rounds, players must authenticate through TikTok's official OAuth flow. You remain responsible for maintaining the security of your TikTok account access.</p>
 
-    <h2>3. Limitation of Liability</h2>
-    <p>The application is provided "as is", without warranties of any kind. We are not liable for any service interruptions resulting from policy updates or technical restrictions by TikTok's official APIs.</p>
+        <h2>3. Limitation of Liability</h2>
+        <p>The application is provided "as is" without guarantees of continuous availability. We are not liable for service interruptions stemming from updates or restrictions imposed by TikTok's developer endpoints.</p>
 
-    <h2>4. Modifications</h2>
-    <p>We reserve the right to modify these terms at any time. Continued use of the application constitutes acceptance of those changes.</p>
+        <h2>4. Modifications</h2>
+        <p>We reserve the right to revise these terms as necessary. Continued participation in the application constitutes full acceptance of updated terms.</p>
+
+        <div class="footer-link">
+            <a href="index.html">← Back to WhoLikedThat</a>
+        </div>
+    </div>
 </body>
 </html>
