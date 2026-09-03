@@ -1,28 +1,28 @@
 # WhoLikedThat
 
-A multiplayer party game where you and your friends try to guess who interacted with what on TikTok. Think Kahoot, but the questions are generated from your actual TikTok likes, favorites, and shares.
+I built this party game to figure out which of my friends actually liked or saved specific TikToks. Basically Kahoot, but using our real TikTok history.
 
-## What it actually does
+## What's the idea?
 
-You create a lobby, everyone logs in with their TikTok account, and the app builds trivia rounds out of your combined activity history. During each round, a video pops up and you have to call out which friend liked it, favorited it, or sent it to the group.
+You set up a room, everyone signs in with TikTok, and the app mixes everyone's public activity into trivia questions. A video shows up on screen and you gotta guess who liked it, favorited it, or sent it to the group chat.
 
-## How it works under the hood
+## How the backend handles it
 
-1. **Auth:** Players authenticate using TikTok Login Kit (standard OAuth 2.0 flow).
-2. **Data Retrieval:** The backend queries the TikTok Data Portability API asynchronously to pull recent likes, favorites, and shares.
-3. **Storage & Caching:** We cache up to 200 interaction records per user locally in SQLite to build the game rounds without spamming the API.
-4. **Lobbies:** Rooms sync player states and render real-time questions based on overlapping user data.
+* **Auth flow:** Standard OAuth 2.0 via TikTok Login Kit. Nothing fancy here.
+* **Data fetching:** Backend queries TikTok's Data Portability API asynchronously when a player joins.
+* **Caching:** Stores up to 200 activity records per user in SQLite so we don't hit API rate limits mid-game.
+* **State sync:** Express handles room states and matches overlapping player interactions to build the rounds.
 
 ## Tech Stack
 
-* **Frontend:** React, Vite, TypeScript, Tailwind CSS
+* **Frontend:** React + Vite, TypeScript, Tailwind
 * **Backend:** Node.js, Express, TypeScript
 * **Database:** SQLite
-* **APIs:** TikTok Login Kit, TikTok Data Portability API
+* **APIs:** TikTok Login Kit & Data Portability API
 
-## Running locally
+## Local Setup
 
-First, clone the repository and install dependencies:
+Grab the repo and install packages:
 
 ```bash
 git clone [https://github.com/arturo918/WhoLikedThat-.git](https://github.com/arturo918/WhoLikedThat-.git)
