@@ -1,31 +1,30 @@
 # WhoLikedThat
 
-A Kahoot-style party game based on your group's TikTok activity. 
+A multiplayer party game where you and your friends try to guess who interacted with what on TikTok. Think Kahoot, but the questions are generated from your actual TikTok likes, favorites, and shares.
 
-Players connect their TikTok accounts, and the app generates trivia rounds where everyone has to guess who among their friends liked, favorited, or shared a specific video.
+## What it actually does
 
-## How it works
+You create a lobby, everyone logs in with their TikTok account, and the app builds trivia rounds out of your combined activity history. During each round, a video pops up and you have to call out which friend liked it, favorited it, or sent it to the group.
 
-1. Log in with your TikTok account via official OAuth.
-2. The app uses the TikTok Data Portability API to fetch interaction history.
-3. Join a lobby with friends and test how well you know each other's TikTok feeds.
+## How it works under the hood
+
+1. **Auth:** Players authenticate using TikTok Login Kit (standard OAuth 2.0 flow).
+2. **Data Retrieval:** The backend queries the TikTok Data Portability API asynchronously to pull recent likes, favorites, and shares.
+3. **Storage & Caching:** We cache up to 200 interaction records per user locally in SQLite to build the game rounds without spamming the API.
+4. **Lobbies:** Rooms sync player states and render real-time questions based on overlapping user data.
 
 ## Tech Stack
 
 * **Frontend:** React, Vite, TypeScript, Tailwind CSS
 * **Backend:** Node.js, Express, TypeScript
 * **Database:** SQLite
-* **APIs:** TikTok Login Kit & Data Portability API
+* **APIs:** TikTok Login Kit, TikTok Data Portability API
 
-## Development
+## Running locally
+
+First, clone the repository and install dependencies:
 
 ```bash
-# Clone the repo
 git clone [https://github.com/arturo918/WhoLikedThat-.git](https://github.com/arturo918/WhoLikedThat-.git)
 cd WhoLikedThat-
-
-# Install dependencies
 npm install
-
-# Start local server
-npm run dev
