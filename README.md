@@ -28,16 +28,16 @@ The app generates real-time questions based on actual user likes, favorites, and
 
 1. Clone the repository and install dependencies:
 
-git clone https://github.com/arturo918/WhoLikedThat-.git
-cd WhoLikedThat-
-npm install
+```git clone https://github.com/arturo918/WhoLikedThat-.git```
+```cd WhoLikedThat-```
+```npm install```
 
 2. Create a .env file in the project root:
 
-TIKTOK_CLIENT_KEY=your_client_key_here
+```TIKTOK_CLIENT_KEY=your_client_key_here
 TIKTOK_CLIENT_SECRET=your_client_secret_here
 REDIRECT_URI=https://arturo918.github.io/WhoLikedThat-/
-PORT=3000
+PORT=3000```
 
 3. Start the dev server:
 
