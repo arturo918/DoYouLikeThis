@@ -32,3 +32,21 @@ The app generates real-time questions based on actual user likes, favorites, and
 git clone [https://github.com/arturo918/WhoLikedThat-.git](https://github.com/arturo918/WhoLikedThat-.git)
 cd WhoLikedThat-
 npm install
+```
+
+2. Create a .env file in the project root:
+
+TIKTOK_CLIENT_KEY=your_client_key_here
+TIKTOK_CLIENT_SECRET=your_client_secret_here
+REDIRECT_URI=https://arturo918.github.io/WhoLikedThat-/
+PORT=3000
+
+3. Start the dev server:
+
+npm run dev
+
+## Legal & Compliance
+
+* [Privacy Policy](https://arturo918.github.io/WhoLikedThat-/privacy.html)
+* [Terms of Service](https://arturo918.github.io/WhoLikedThat-/terms.html)
+* [Support](https://arturo918.github.io/WhoLikedThat-/support.html)
