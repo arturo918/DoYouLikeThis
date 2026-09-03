@@ -1,28 +1,32 @@
 # WhoLikedThat
 
-I built this party game to figure out which of my friends actually liked or saved specific TikToks. Basically Kahoot, but using our real TikTok history.
+hacked this together over the weekend so my friends and I could play a kahoot-style trivia game with our actual tiktok activity. 
 
-## What's the idea?
+turns out guessing who favorited what at 3am gets pretty funny.
 
-You set up a room, everyone signs in with TikTok, and the app mixes everyone's public activity into trivia questions. A video shows up on screen and you gotta guess who liked it, favorited it, or sent it to the group chat.
+## what is this?
 
-## How the backend handles it
+basically a web game where everyone joins a lobby, logs in through tiktok, and the app throws together trivia rounds based on what you've liked, saved, or sent around. 
 
-* **Auth flow:** Standard OAuth 2.0 via TikTok Login Kit. Nothing fancy here.
-* **Data fetching:** Backend queries TikTok's Data Portability API asynchronously when a player joins.
-* **Caching:** Stores up to 200 activity records per user in SQLite so we don't hit API rate limits mid-game.
-* **State sync:** Express handles room states and matches overlapping player interactions to build the rounds.
+a video comes up on screen and you have to call out who interacted with it.
 
-## Tech Stack
+## backend stuff
 
-* **Frontend:** React + Vite, TypeScript, Tailwind
-* **Backend:** Node.js, Express, TypeScript
+* **Auth:** Standard OAuth2 using TikTok Login Kit.
+* **Data Retrieval:** Backend hits the TikTok Data Portability API asynchronously when players drop into the lobby.
+* **Caching:** Saves up to 200 interaction records per user locally using SQLite so we don't spam TikTok's rate limits mid-game.
+* **State sync:** Express manages room states & matches overlapping user data to spin up the rounds.
+
+## Tech Used
+
+* **Frontend:** React, Vite, TypeScript, Tailwind CSS
+* **Backend:** Node.js, Express, TS
 * **Database:** SQLite
 * **APIs:** TikTok Login Kit & Data Portability API
 
-## Local Setup
+## Running it locally
 
-Grab the repo and install packages:
+Clone it & install deps:
 
 ```bash
 git clone [https://github.com/arturo918/WhoLikedThat-.git](https://github.com/arturo918/WhoLikedThat-.git)
