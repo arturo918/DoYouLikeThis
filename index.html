@@ -3,73 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhoLikedThat - TikTok Analytics</title>
+    <title>WhoLikedThat - TikTok Trivia Game</title>
     <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --cyan: #25f4ee;
+            --magenta: #fe2c55;
+            --magenta-hover: #e02448;
+            --border: #334155;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
+            padding: 20px;
+            background-image: radial-gradient(circle at 50% 0%, rgba(37, 244, 238, 0.08) 0%, transparent 60%),
+                              radial-gradient(circle at 80% 100%, rgba(254, 44, 85, 0.08) 0%, transparent 50%);
         }
+
         .container {
             text-align: center;
-            max-width: 600px;
-            padding: 2.5rem;
-            background: #1e293b;
-            border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            max-width: 540px;
+            width: 100%;
+            padding: 3rem 2.5rem;
+            background: rgba(30, 41, 59, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.6s ease-out;
         }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 56px;
+            height: 56px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-badge svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--text-main);
+        }
+
         h1 {
-            color: #38bdf8;
-            margin-bottom: 0.5rem;
-            font-size: 2rem;
+            font-size: 2.25rem;
+            margin: 0 0 0.75rem 0;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, var(--cyan), var(--text-main) 40%, var(--magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
+
         p {
-            color: #94a3b8;
+            color: var(--text-muted);
             line-height: 1.6;
+            font-size: 1.05rem;
+            margin: 0 0 2rem 0;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
             margin-bottom: 2rem;
         }
+
+        .feature-tag {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border);
+            color: var(--cyan);
+            font-size: 0.825rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 20px;
+        }
+
         .btn {
-            display: inline-block;
-            background-color: #fe2c55;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            background-color: var(--magenta);
             color: white;
-            padding: 0.75rem 1.75rem;
-            border-radius: 6px;
+            padding: 0.9rem 1.75rem;
+            border-radius: 12px;
             text-decoration: none;
-            font-weight: bold;
-            transition: background 0.2s;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(254, 44, 85, 0.35);
         }
+
         .btn:hover {
-            background-color: #e61e44;
+            background-color: var(--magenta-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(254, 44, 85, 0.5);
         }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
         .footer {
-            margin-top: 2rem;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(51, 65, 85, 0.6);
             font-size: 0.85rem;
             color: #64748b;
         }
+
         .footer a {
-            color: #94a3b8;
+            color: var(--text-muted);
             text-decoration: none;
-            margin: 0 10px;
+            margin: 0 8px;
+            transition: color 0.2s ease;
         }
+
         .footer a:hover {
+            color: var(--cyan);
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="logo-badge">
+            <svg viewBox="0 0 24 24">
+                <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.901 2.893 2.897 2.897 0 0 1-2.895-2.9 2.897 2.897 0 0 1 2.895-2.892c.32 0 .633.06.924.173V9.41a6.33 6.33 0 0 0-.924-.068 6.338 6.338 0 0 0-6.332 6.335 6.338 6.338 0 0 0 6.332 6.335 6.33 6.33 0 0 0 6.331-6.335V9.062a8.163 8.163 0 0 0 4.785 1.523v-3.83a4.79 4.79 0 0 1-.905-.069z"/>
+            </svg>
+        </div>
+
         <h1>WhoLikedThat</h1>
-        <p>Securely connect your TikTok account to view advanced analytics, interaction insights, and content engagement metrics in real time.</p>
-        <a href="#" class="btn">Log in with TikTok</a>
+        <p>The ultimate TikTok trivia party game. Connect your account, host a lobby with friends, and guess who liked, favorited, or shared each video!</p>
+
+        <div class="features">
+            <span class="feature-tag">🎮 Kahoot Style</span>
+            <span class="feature-tag">🔒 Official OAuth</span>
+            <span class="feature-tag">⚡ Real-time Lobbies</span>
+        </div>
+
+        <a href="#" class="btn">
+            <svg viewBox="0 0 24 24">
+                <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.901 2.893 2.897 2.897 0 0 1-2.895-2.9 2.897 2.897 0 0 1 2.895-2.892c.32 0 .633.06.924.173V9.41a6.33 6.33 0 0 0-.924-.068 6.338 6.338 0 0 0-6.332 6.335 6.338 6.338 0 0 0 6.332 6.335 6.33 6.33 0 0 0 6.331-6.335V9.062a8.163 8.163 0 0 0 4.785 1.523v-3.83a4.79 4.79 0 0 1-.905-.069z"/>
+            </svg>
+            Log in with TikTok
+        </a>
+
         <div class="footer">
-            <a href="privacy.html">Privacy Policy</a> | 
-            <a href="terms.html">Terms of service</a> | 
+            <a href="privacy.html">Privacy Policy</a> • 
+            <a href="terms.html">Terms of Service</a> • 
             <a href="support.html">Support</a>
         </div>
     </div>
