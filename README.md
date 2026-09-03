@@ -28,9 +28,9 @@ The app generates real-time questions based on actual user likes, favorites, and
 
 1. Clone the repository and install dependencies:
 
-```git clone https://github.com/arturo918/WhoLikedThat-.git``
+```git clone https://github.com/arturo918/WhoLikedThat-.git
 cd WhoLikedThat-
-npm install```
+npm install``
 
 2. Create a .env file in the project root:
 
