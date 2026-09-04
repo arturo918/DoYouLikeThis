@@ -6,18 +6,18 @@
     <title>DoYouLikeThis? - TikTok Party Game</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: #1e293b;
+            --bg-color: #0b0f19;
+            --card-bg: #141c2b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --cyan: #25f4ee;
-            --magenta: #fe2c55;
-            --magenta-hover: #e02448;
-            --border: #334155;
+            --cyan: #38bdf8;
+            --magenta: #ff2b55;
+            --magenta-hover: #e02045;
+            --border: rgba(255, 255, 255, 0.08);
             --green: #22c55e;
             --green-glow: rgba(34, 197, 94, 0.4);
-            --red-glow: rgba(254, 44, 85, 0.4);
-            --disabled: #475569;
+            --red-glow: rgba(255, 43, 85, 0.4);
+            --disabled: #334155;
         }
 
         * {
@@ -34,21 +34,19 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            background-image: radial-gradient(circle at 50% 0%, rgba(37, 244, 238, 0.08) 0%, transparent 60%),
-                              radial-gradient(circle at 80% 100%, rgba(254, 44, 85, 0.08) 0%, transparent 50%);
-            position: relative;
+            background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.05) 0%, transparent 60%),
+                              radial-gradient(circle at 80% 100%, rgba(255, 43, 85, 0.05) 0%, transparent 50%);
         }
 
         .container {
             text-align: center;
-            max-width: 580px;
+            max-width: 520px;
             width: 100%;
-            padding: 2.5rem 2rem;
-            background: rgba(30, 41, 59, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
+            padding: 2.5rem 2rem 1.5rem 2rem;
+            background: var(--card-bg);
+            border-radius: 28px;
             border: 1px solid var(--border);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
             animation: fadeIn 0.4s ease-out;
             position: relative;
         }
@@ -62,7 +60,6 @@
             display: none !important;
         }
 
-        /* CUSTOM TOAST NOTIFICATIONS */
         #toast-container {
             position: fixed;
             top: 20px;
@@ -78,19 +75,18 @@
         }
 
         .toast {
-            background: rgba(30, 41, 59, 0.95);
+            background: rgba(20, 28, 43, 0.95);
             color: var(--text-main);
             border: 1px solid var(--border);
             padding: 12px 18px;
             border-radius: 12px;
             font-size: 0.9rem;
             font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 12px;
             animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             pointer-events: auto;
         }
@@ -114,35 +110,76 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 56px;
-            height: 56px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            margin-bottom: 1.25rem;
+            width: 48px;
+            height: 48px;
+            background: #080c14;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            margin-bottom: 1.2rem;
         }
 
         .logo-badge svg {
-            width: 28px;
-            height: 28px;
-            fill: var(--text-main);
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
         }
 
         h1 {
-            font-size: 2rem;
-            margin: 0 0 0.5rem 0;
+            font-size: 2.2rem;
+            margin: 0 0 0.6rem 0;
             font-weight: 800;
-            letter-spacing: -0.025em;
-            background: linear-gradient(135deg, var(--cyan), var(--text-main) 40%, var(--magenta));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .title-cyan {
+            color: var(--cyan);
+        }
+
+        .title-pink {
+            color: var(--magenta);
         }
 
         p {
             color: var(--text-muted);
             line-height: 1.5;
             font-size: 0.95rem;
-            margin: 0 0 1.5rem 0;
+            margin: 0 0 2rem 0;
+        }
+
+        .login-banner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--magenta);
+            border-radius: 24px;
+            padding: 1.5rem 2rem;
+            text-decoration: none;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 10px 30px rgba(255, 43, 85, 0.35);
+            cursor: pointer;
+            margin-bottom: 2rem;
+        }
+
+        .login-banner:hover {
+            transform: translateY(-2px);
+            background-color: var(--magenta-hover);
+            box-shadow: 0 15px 35px rgba(255, 43, 85, 0.5);
+        }
+
+        .login-banner-logo {
+            width: 130px;
+            height: 130px;
+            fill: #000000;
+            flex-shrink: 0;
+        }
+
+        .login-banner-text {
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-align: right;
+            line-height: 1.25;
+            max-width: 150px;
         }
 
         .btn {
@@ -154,20 +191,19 @@
             background-color: var(--magenta);
             color: white;
             padding: 0.85rem 1.5rem;
-            border-radius: 12px;
+            border-radius: 14px;
             text-decoration: none;
             font-weight: 700;
             font-size: 1rem;
             border: none;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 20px rgba(254, 44, 85, 0.35);
+            box-shadow: 0 4px 20px rgba(255, 43, 85, 0.35);
         }
 
         .btn:hover:not(:disabled) {
             background-color: var(--magenta-hover);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(254, 44, 85, 0.5);
         }
 
         .btn:disabled {
@@ -178,19 +214,19 @@
         }
 
         .btn-secondary {
-            background-color: rgba(15, 23, 42, 0.6);
+            background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
             color: var(--text-main);
             box-shadow: none;
         }
 
         .btn-secondary:hover:not(:disabled) {
-            background-color: var(--card-bg);
+            background-color: rgba(255, 255, 255, 0.1);
             border-color: var(--cyan);
         }
 
         .btn-debug {
-            background-color: rgba(37, 244, 238, 0.15);
+            background-color: rgba(56, 189, 248, 0.1);
             border: 1px dashed var(--cyan);
             color: var(--cyan);
             box-shadow: none;
@@ -199,17 +235,13 @@
             padding: 0.6rem 1rem;
         }
 
-        .btn-debug:hover {
-            background-color: rgba(37, 244, 238, 0.25);
-        }
-
         .user-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(15, 23, 42, 0.6);
+            background: rgba(8, 12, 20, 0.6);
             padding: 12px 16px;
-            border-radius: 12px;
+            border-radius: 14px;
             border: 1px solid var(--border);
             margin-bottom: 1.5rem;
             text-align: left;
@@ -219,29 +251,21 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            min-width: 0;
         }
 
         .avatar {
             width: 44px;
             height: 44px;
-            min-width: 44px;
-            min-height: 44px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--cyan);
-            background: #334155;
-            flex-shrink: 0;
-            aspect-ratio: 1 / 1;
+            background: #1e293b;
         }
 
         .user-details h3 {
             margin: 0;
             font-size: 0.95rem;
             color: var(--text-main);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .user-details span {
@@ -257,14 +281,12 @@
             padding: 4px 8px;
             border-radius: 6px;
             border: 1px solid rgba(34, 197, 94, 0.3);
-            flex-shrink: 0;
         }
 
-        /* LOBBY STYLES */
         .lobby-box {
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(8, 12, 20, 0.4);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1.25rem;
             margin-bottom: 1.5rem;
             text-align: left;
@@ -274,9 +296,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(30, 41, 59, 0.9);
+            background: rgba(20, 28, 43, 0.9);
             padding: 10px 14px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid var(--border);
             margin-bottom: 1rem;
         }
@@ -319,7 +341,6 @@
             gap: 10px;
             max-height: 220px;
             overflow-y: auto;
-            padding-right: 4px;
         }
 
         .player-item {
@@ -328,11 +349,10 @@
             gap: 10px;
             background: var(--card-bg);
             padding: 8px 10px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: 1px solid var(--border);
             font-size: 0.85rem;
             font-weight: 600;
-            min-width: 0;
         }
 
         .player-item.host {
@@ -342,12 +362,8 @@
         .player-avatar {
             width: 32px;
             height: 32px;
-            min-width: 32px;
-            min-height: 32px;
             border-radius: 50%;
             object-fit: cover;
-            flex-shrink: 0;
-            aspect-ratio: 1 / 1;
         }
 
         .player-name {
@@ -356,11 +372,10 @@
             text-overflow: ellipsis;
         }
 
-        /* GAME CARD */
         .game-card {
-            background: rgba(15, 23, 42, 0.4);
+            background: rgba(8, 12, 20, 0.4);
             border: 1px solid var(--border);
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1.25rem;
             margin-bottom: 1.5rem;
             text-align: left;
@@ -384,10 +399,9 @@
 
         .video-container {
             width: 100%;
-            max-height: 320px;
-            height: 320px;
+            height: 340px;
             background: #000;
-            border-radius: 12px;
+            border-radius: 14px;
             overflow: hidden;
             margin-bottom: 1rem;
             border: 1px solid var(--border);
@@ -396,10 +410,10 @@
             align-items: center;
         }
 
-        .video-container video {
+        .video-container iframe, .video-container video {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            border: none;
         }
 
         .options-grid {
@@ -413,26 +427,20 @@
             border: 1px solid var(--border);
             color: var(--text-main);
             padding: 14px;
-            border-radius: 10px;
+            border-radius: 12px;
             font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
             text-align: center;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            position: relative;
+            transition: all 0.25s ease;
         }
 
         .option-btn:hover:not(:disabled) {
             border-color: var(--cyan);
-            background: rgba(37, 244, 238, 0.08);
+            background: rgba(56, 189, 248, 0.1);
             transform: translateY(-1px);
         }
 
-        /* RESPONSE STATES */
         .option-btn.correct {
             background-color: rgba(34, 197, 94, 0.2) !important;
             border-color: var(--green) !important;
@@ -442,7 +450,7 @@
         }
 
         .option-btn.incorrect {
-            background-color: rgba(254, 44, 85, 0.2) !important;
+            background-color: rgba(255, 43, 85, 0.2) !important;
             border-color: var(--magenta) !important;
             color: #f87171 !important;
             box-shadow: 0 0 20px var(--red-glow) !important;
@@ -461,7 +469,7 @@
         }
 
         .debug-info-box {
-            background: rgba(254, 44, 85, 0.15);
+            background: rgba(255, 43, 85, 0.15);
             border: 1px dashed var(--magenta);
             color: #ff8da1;
             padding: 8px 12px;
@@ -472,11 +480,11 @@
         }
 
         .footer {
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid rgba(51, 65, 85, 0.6);
-            font-size: 0.8rem;
-            color: #64748b;
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
         .footer a {
@@ -494,8 +502,8 @@
             border: 3px solid rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             border-top: 3px solid var(--cyan);
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem auto;
         }
@@ -508,7 +516,6 @@
 </head>
 <body>
 
-    <!-- CONTAINER DE TOASTS CUSTOM -->
     <div id="toast-container"></div>
 
     <div class="container">
@@ -518,27 +525,26 @@
             </svg>
         </div>
 
-        <h1>DoYouLikeThis?</h1>
+        <h1><span class="title-cyan">DoYouLike</span><span class="title-pink">This?</span></h1>
 
-        <!-- 1. LANDING VIEW -->
         <div id="landing-view">
             <p>The multiplayer TikTok guessing game. Watch a video from the lobby's feed and guess which of your friends liked it!</p>
 
-            <a href="https://www.tiktok.com/v2/auth/authorize/?client_key=sbawfkydwech36bll1&response_type=code&scope=user.info.basic&redirect_uri=https%3A%2F%2Farturo918.github.io%2FDoYouLikeThis%2F" class="btn">
-                <svg viewBox="0 0 24 24">
+            <a href="https://www.tiktok.com/v2/auth/authorize/?client_key=sbawfkydwech36bll1&response_type=code&scope=user.info.basic&redirect_uri=https%3A%2F%2Farturo918.github.io%2FDoYouLikeThis%2F" class="login-banner">
+                <svg class="login-banner-logo" viewBox="0 0 24 24">
                     <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.901 2.893 2.897 2.897 0 0 1-2.895-2.9 2.897 2.897 0 0 1 2.895-2.892c.32 0 .633.06.924.173V9.41a6.33 6.33 0 0 0-.924-.068 6.338 6.338 0 0 0-6.332 6.335 6.338 6.338 0 0 0 6.332 6.335 6.33 6.33 0 0 0 6.331-6.335V9.062a8.163 8.163 0 0 0 4.785 1.523v-3.83a4.79 4.79 0 0 1-.905-.069z"/>
                 </svg>
-                Log in with TikTok
+                <div class="login-banner-text">
+                    Log in with<br>TikTok
+                </div>
             </a>
         </div>
 
-        <!-- 2. LOADING VIEW -->
         <div id="loading-view" class="hidden">
             <div class="loader"></div>
             <p>Retrieving user profile and activity from TikTok...</p>
         </div>
 
-        <!-- 3. LOBBY VIEW -->
         <div id="lobby-view" class="hidden">
             <div class="user-header">
                 <div class="user-info">
@@ -567,9 +573,7 @@
                     <span id="players-count" class="players-count">1/12 (Min: 3)</span>
                 </div>
 
-                <div id="players-list" class="players-grid">
-                    <!-- Jugadores añadidos dinámicamente -->
-                </div>
+                <div id="players-list" class="players-grid"></div>
             </div>
 
             <button id="start-game-btn" class="btn" disabled onclick="startGame()">
@@ -581,26 +585,18 @@
             </button>
         </div>
 
-        <!-- 4. GAME VIEW -->
         <div id="game-view" class="hidden">
             <div class="game-card">
                 <div class="game-title">Round 1 • Who liked this TikTok?</div>
                 
-                <div class="video-container">
-                    <video id="game-video" autoplay loop muted playsinline controls>
-                        <source id="video-source" src="" type="video/mp4">
-                        Your browser does not support video playback.
-                    </video>
-                </div>
+                <div id="video-container" class="video-container"></div>
 
                 <div id="debug-target-box" class="debug-info-box hidden">
                     🐛 DEBUG INFO: Video liked by <strong id="debug-target-name">@user</strong>
                 </div>
 
                 <div class="game-question">Guess which lobby member liked this video:</div>
-                <div class="options-grid" id="options-grid">
-                    <!-- Opciones dinámicas -->
-                </div>
+                <div class="options-grid" id="options-grid"></div>
             </div>
 
             <div style="display: flex; gap: 10px;">
@@ -621,19 +617,21 @@
     </div>
 
     <script>
-        const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
+        const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2338bdf8'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
         const TIKTOK_VIDEOS = [
-            "https://assets.mixkit.co/videos/preview/mixkit-vertical-shot-of-a-woman-dancing-40032-large.mp4",
-            "https://assets.mixkit.co/videos/preview/mixkit-young-woman-skateboarding-on-a-street-41228-large.mp4",
-            "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smartphone-scrolling-on-social-media-41120-large.mp4"
+            "https://vm.tiktok.com/ZN8YXBfe7/",
+            "https://vm.tiktok.com/ZN8YXNcCS/",
+            "https://vm.tiktok.com/ZN8YXkcHh/",
+            "https://vm.tiktok.com/ZN8YX2RpF/",
+            "https://vm.tiktok.com/ZN8YXjfVT/",
+            "https://vm.tiktok.com/ZN8YXSyRT/",
+            "https://vm.tiktok.com/ZN8YXkUyw/"
         ];
 
-        // PROXY RESOLVER PARA PFP DE TIKTOK (Elimina bloqueos de CORS y Referrer)
         function formatAvatarUrl(url) {
             if (!url) return FALLBACK_AVATAR;
             if (url.startsWith('data:') || url.startsWith('blob:')) return url;
-            // Pasa URLs remotas de TikTok por proxy de caché de imágenes
             if (url.includes('tiktok') || url.includes('byteimg') || url.startsWith('http')) {
                 return `https://wsrv.nl/?url=${encodeURIComponent(url)}&output=webp`;
             }
@@ -654,7 +652,6 @@
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
 
-        // NOTIFICACIONES CUSTOM (Sustituye alert())
         function showToast(message, type = 'info') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -769,10 +766,37 @@
         function copyInviteLink() {
             const inviteUrl = `${window.location.origin}${window.location.pathname}?room=${roomCode}`;
             navigator.clipboard.writeText(inviteUrl).then(() => {
-                showToast('¡Enlace de invitación copiado al portapapeles!', 'success');
+                showToast('Invite link copied to clipboard!', 'success');
             }).catch(() => {
-                showToast('No se pudo copiar el enlace automáticamente.', 'error');
+                showToast('Failed to copy link to clipboard.', 'error');
             });
+        }
+
+        function loadVideoPlayer(url) {
+            const container = document.getElementById('video-container');
+            container.innerHTML = '';
+
+            if (url.includes('tiktok.com')) {
+                const iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+                iframe.allowFullscreen = true;
+                container.appendChild(iframe);
+            } else {
+                const video = document.createElement('video');
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true;
+                video.playsInline = true;
+                video.controls = true;
+                
+                const source = document.createElement('source');
+                source.src = url;
+                source.type = 'video/mp4';
+                
+                video.appendChild(source);
+                container.appendChild(video);
+            }
         }
 
         function startGame() {
@@ -785,13 +809,8 @@
             currentTargetPlayer = players[Math.floor(Math.random() * players.length)];
             document.getElementById('debug-target-name').innerText = `@${currentTargetPlayer.name}`;
 
-            const videoElem = document.getElementById('game-video');
-            const videoSrc = document.getElementById('video-source');
             const randomVideo = TIKTOK_VIDEOS[Math.floor(Math.random() * TIKTOK_VIDEOS.length)];
-            
-            videoSrc.src = randomVideo;
-            videoElem.load();
-            videoElem.play().catch(() => {});
+            loadVideoPlayer(randomVideo);
 
             const optionsGrid = document.getElementById('options-grid');
             optionsGrid.innerHTML = '';
@@ -821,16 +840,15 @@
 
             if (selectedPlayer.id === currentTargetPlayer.id) {
                 btnElement.classList.add('correct');
-                showToast(`¡Correcto! @${currentTargetPlayer.name} le dio Like a este vídeo.`, 'success');
+                showToast(`Correct! @${currentTargetPlayer.name} liked this video.`, 'success');
             } else {
                 btnElement.classList.add('incorrect');
-                // Resaltar también el botón correcto
                 allBtns.forEach(b => {
                     if (b.dataset.playerId === currentTargetPlayer.id) {
                         b.classList.add('correct');
                     }
                 });
-                showToast(`¡Incorrecto! Le dio Like @${currentTargetPlayer.name}.`, 'error');
+                showToast(`Incorrect! @${currentTargetPlayer.name} liked this video.`, 'error');
             }
         }
 
@@ -845,8 +863,8 @@
         }
 
         function returnToLobby() {
-            const videoElem = document.getElementById('game-video');
-            videoElem.pause();
+            const container = document.getElementById('video-container');
+            container.innerHTML = '';
             document.getElementById('game-view').classList.add('hidden');
             document.getElementById('lobby-view').classList.remove('hidden');
         }
