@@ -15,6 +15,7 @@
             --magenta-hover: #e02448;
             --border: #334155;
             --green: #22c55e;
+            --disabled: #475569;
         }
 
         * {
@@ -37,7 +38,7 @@
 
         .container {
             text-align: center;
-            max-width: 560px;
+            max-width: 580px;
             width: 100%;
             padding: 2.5rem 2rem;
             background: rgba(30, 41, 59, 0.85);
@@ -92,24 +93,6 @@
             margin: 0 0 1.5rem 0;
         }
 
-        .features {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-tag {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid var(--border);
-            color: var(--cyan);
-            font-size: 0.8rem;
-            font-weight: 600;
-            padding: 5px 12px;
-            border-radius: 20px;
-        }
-
         .btn {
             display: inline-flex;
             align-items: center;
@@ -129,10 +112,43 @@
             box-shadow: 0 4px 20px rgba(254, 44, 85, 0.35);
         }
 
-        .btn:hover {
+        .btn:hover:not(:disabled) {
             background-color: var(--magenta-hover);
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(254, 44, 85, 0.5);
+        }
+
+        .btn:disabled {
+            background-color: var(--disabled);
+            cursor: not-allowed;
+            box-shadow: none;
+            opacity: 0.6;
+        }
+
+        .btn-secondary {
+            background-color: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            box-shadow: none;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background-color: var(--card-bg);
+            border-color: var(--cyan);
+        }
+
+        .btn-debug {
+            background-color: rgba(37, 244, 238, 0.15);
+            border: 1px dashed var(--cyan);
+            color: var(--cyan);
+            box-shadow: none;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            padding: 0.6rem 1rem;
+        }
+
+        .btn-debug:hover {
+            background-color: rgba(37, 244, 238, 0.25);
         }
 
         .btn svg {
@@ -160,12 +176,13 @@
         }
 
         .avatar {
-            width: 42px;
-            height: 42px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid var(--cyan);
-            background: var(--card-bg);
+            background: #334155;
+            flex-shrink: 0;
         }
 
         .user-details h3 {
@@ -189,6 +206,98 @@
             border: 1px solid rgba(34, 197, 94, 0.3);
         }
 
+        /* LOBBY STYLES */
+        .lobby-box {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .lobby-code-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(30, 41, 59, 0.9);
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .code-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .code-value {
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--cyan);
+            letter-spacing: 2px;
+        }
+
+        .players-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .players-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .players-count.valid {
+            color: var(--green);
+        }
+
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 10px;
+            max-height: 220px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .player-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--card-bg);
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .player-item.host {
+            border-color: var(--cyan);
+        }
+
+        .player-avatar {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .player-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* GAME CARD */
         .game-card {
             background: rgba(15, 23, 42, 0.4);
             border: 1px solid var(--border);
@@ -308,14 +417,9 @@
 
         <h1>DoYouLikeThis?</h1>
 
+        <!-- 1. LANDING VIEW -->
         <div id="landing-view">
             <p>The multiplayer TikTok guessing game. Watch a video from the lobby's feed and guess which of your friends liked it!</p>
-
-            <div class="features">
-                <span class="feature-tag">🎮 Kahoot Style</span>
-                <span class="feature-tag">🔒 Official OAuth</span>
-                <span class="feature-tag">⚡ Real-time Lobbies</span>
-            </div>
 
             <a href="https://www.tiktok.com/v2/auth/authorize/?client_key=sbawfkydwech36bll1&response_type=code&scope=user.info.basic&redirect_uri=https%3A%2F%2Farturo918.github.io%2FDoYouLikeThis%2F" class="btn">
                 <svg viewBox="0 0 24 24">
@@ -325,23 +429,57 @@
             </a>
         </div>
 
+        <!-- 2. LOADING VIEW -->
         <div id="loading-view" class="hidden">
             <div class="loader"></div>
             <p>Retrieving user profile and activity from TikTok...</p>
         </div>
 
-        <div id="game-view" class="hidden">
+        <!-- 3. LOBBY VIEW (INTERMEDIO) -->
+        <div id="lobby-view" class="hidden">
             <div class="user-header">
                 <div class="user-info">
-                    <img id="user-avatar" class="avatar" src="" alt="User Avatar" />
+                    <img id="user-avatar-lobby" class="avatar" src="" alt="User Avatar" />
                     <div class="user-details">
-                        <h3 id="user-name">Loading...</h3>
+                        <h3 id="user-name-lobby">Loading...</h3>
                         <span>● Connected via OAuth</span>
                     </div>
                 </div>
                 <div class="status-badge">EEA Data Active</div>
             </div>
 
+            <div class="lobby-box">
+                <div class="lobby-code-card">
+                    <div>
+                        <div class="code-title">Room Code</div>
+                        <div id="room-code" class="code-value">---</div>
+                    </div>
+                    <button class="btn btn-secondary" style="width: auto; padding: 6px 12px; font-size: 0.8rem;" onclick="copyInviteLink()">
+                        📋 Copy Link
+                    </button>
+                </div>
+
+                <div class="players-header">
+                    <span style="font-weight: 700; font-size: 0.9rem;">Lobby Members</span>
+                    <span id="players-count" class="players-count">1/12 (Min: 3)</span>
+                </div>
+
+                <div id="players-list" class="players-grid">
+                    <!-- Jugadores añadidos dinámicamente -->
+                </div>
+            </div>
+
+            <button id="start-game-btn" class="btn" disabled onclick="startGame()">
+                Start Game
+            </button>
+
+            <button class="btn btn-debug" onclick="addDebugBots(3)">
+                🛠️ Debug: Add 3 Bots
+            </button>
+        </div>
+
+        <!-- 4. GAME VIEW -->
+        <div id="game-view" class="hidden">
             <div class="game-card">
                 <div class="game-title">Round 1 • Who liked this TikTok?</div>
                 <div class="video-placeholder">
@@ -351,16 +489,13 @@
                     <span>TikTok Video Stream</span>
                 </div>
                 <div class="game-question">Guess which lobby member liked this video:</div>
-                <div class="options-grid">
-                    <button class="option-btn" id="opt-user">Loading...</button>
-                    <button class="option-btn">@Alex_TikTok</button>
-                    <button class="option-btn">@Maria_G</button>
-                    <button class="option-btn">@David_R</button>
+                <div class="options-grid" id="options-grid">
+                    <!-- Opciones dinámicas -->
                 </div>
             </div>
 
-            <button class="btn" onclick="location.href='https://arturo918.github.io/DoYouLikeThis/'">
-                Start New Lobby
+            <button class="btn btn-secondary" onclick="returnToLobby()">
+                Leave Game to Lobby
             </button>
         </div>
 
@@ -372,6 +507,16 @@
     </div>
 
     <script>
+        const DEFAULT_AVATAR = "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=150&auto=format&fit=crop&q=80";
+
+        let currentUser = {
+            name: "Average romance anime enjoyer",
+            avatar: DEFAULT_AVATAR
+        };
+
+        let players = [];
+        const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
 
@@ -379,31 +524,109 @@
             document.getElementById('landing-view').classList.add('hidden');
             document.getElementById('loading-view').classList.remove('hidden');
 
-            fetchUserData(code);
+            setTimeout(() => {
+                document.getElementById('loading-view').classList.add('hidden');
+                document.getElementById('lobby-view').classList.remove('hidden');
+
+                initLobby();
+            }, 1000);
         }
 
-        function fetchUserData(authCode) {
-            setTimeout(() => {
-                const mockProfile = {
-                    display_name: "Average romance anime enjoyer",
-                    avatar_url: "https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/7310000000000000000~c5_100x100.jpeg"
-                };
+        function initLobby() {
+            document.getElementById('room-code').innerText = roomCode;
+            document.getElementById('user-name-lobby').innerText = currentUser.name;
+            
+            const avatarImg = document.getElementById('user-avatar-lobby');
+            avatarImg.src = currentUser.avatar;
+            avatarImg.onerror = function() { this.src = DEFAULT_AVATAR; };
 
-                const savedName = localStorage.getItem('tiktok_user_name') || mockProfile.display_name;
-                const savedAvatar = localStorage.getItem('tiktok_user_avatar') || mockProfile.avatar_url;
+            players = [{
+                id: 'host',
+                name: currentUser.name,
+                avatar: currentUser.avatar,
+                isHost: true
+            }];
 
-                document.getElementById('user-name').innerText = savedName;
-                document.getElementById('opt-user').innerText = "@" + savedName.replace(/\s+/g, '_');
-                
-                const imgElem = document.getElementById('user-avatar');
-                imgElem.src = savedAvatar;
-                imgElem.onerror = function() {
-                    this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='42' height='42' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
-                };
+            renderPlayers();
+        }
 
-                document.getElementById('loading-view').classList.add('hidden');
-                document.getElementById('game-view').classList.remove('hidden');
-            }, 1000);
+        function renderPlayers() {
+            const listElem = document.getElementById('players-list');
+            listElem.innerHTML = '';
+
+            players.forEach(p => {
+                const item = document.createElement('div');
+                item.className = `player-item ${p.isHost ? 'host' : ''}`;
+                item.innerHTML = `
+                    <img class="player-avatar" src="${p.avatar}" onerror="this.src='${DEFAULT_AVATAR}'" />
+                    <span class="player-name">${p.name}</span>
+                `;
+                listElem.appendChild(item);
+            });
+
+            const countElem = document.getElementById('players-count');
+            const startBtn = document.getElementById('start-game-btn');
+
+            countElem.innerText = `${players.length}/12 (Min: 3)`;
+
+            if (players.length >= 3 && players.length <= 12) {
+                countElem.classList.add('valid');
+                startBtn.disabled = false;
+            } else {
+                countElem.classList.remove('valid');
+                startBtn.disabled = true;
+            }
+        }
+
+        function addDebugBots(count) {
+            const botNames = ["Alex_TikTok", "Maria_G", "David_R", "OtakuKing", "PixelCraft", "Chika_Fan", "CyberSamurai", "NeonVibe", "K-PopLover", "ShadowRunner", "RetroGamer"];
+            
+            for (let i = 0; i < count; i++) {
+                if (players.length >= 12) break;
+                const unusedNames = botNames.filter(b => !players.some(p => p.name === b));
+                if (unusedNames.length === 0) break;
+
+                const name = unusedNames[Math.floor(Math.random() * unusedNames.length)];
+                players.push({
+                    id: 'bot_' + Date.now() + '_' + i,
+                    name: name,
+                    avatar: `https://api.dicebear.com/7.x/bottts/svg?seed=${name}`,
+                    isHost: false
+                });
+            }
+            renderPlayers();
+        }
+
+        function copyInviteLink() {
+            const inviteUrl = `${window.location.origin}${window.location.pathname}?room=${roomCode}`;
+            navigator.clipboard.writeText(inviteUrl).then(() => {
+                alert('¡Enlace de invitación copiado al portapapeles!');
+            }).catch(() => {
+                prompt('Copia este enlace:', inviteUrl);
+            });
+        }
+
+        function startGame() {
+            if (players.length < 3) return;
+
+            document.getElementById('lobby-view').classList.add('hidden');
+            document.getElementById('game-view').classList.remove('hidden');
+
+            const optionsGrid = document.getElementById('options-grid');
+            optionsGrid.innerHTML = '';
+
+            const shuffled = [...players].sort(() => 0.5 - Math.random()).slice(0, 4);
+            shuffled.forEach(p => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = `@${p.name.replace(/\s+/g, '_')}`;
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        function returnToLobby() {
+            document.getElementById('game-view').classList.add('hidden');
+            document.getElementById('lobby-view').classList.remove('hidden');
         }
     </script>
 </body>
