@@ -15,6 +15,8 @@
             --magenta-hover: #e02448;
             --border: #334155;
             --green: #22c55e;
+            --green-glow: rgba(34, 197, 94, 0.4);
+            --red-glow: rgba(254, 44, 85, 0.4);
             --disabled: #475569;
         }
 
@@ -34,6 +36,7 @@
             padding: 20px;
             background-image: radial-gradient(circle at 50% 0%, rgba(37, 244, 238, 0.08) 0%, transparent 60%),
                               radial-gradient(circle at 80% 100%, rgba(254, 44, 85, 0.08) 0%, transparent 50%);
+            position: relative;
         }
 
         .container {
@@ -47,6 +50,7 @@
             border: 1px solid var(--border);
             box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
             animation: fadeIn 0.4s ease-out;
+            position: relative;
         }
 
         @keyframes fadeIn {
@@ -56,6 +60,54 @@
 
         .hidden {
             display: none !important;
+        }
+
+        /* CUSTOM TOAST NOTIFICATIONS */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none;
+            width: 90%;
+            max-width: 420px;
+        }
+
+        .toast {
+            background: rgba(30, 41, 59, 0.95);
+            color: var(--text-main);
+            border: 1px solid var(--border);
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            animation: toastIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: auto;
+        }
+
+        .toast.success {
+            border-color: var(--green);
+            box-shadow: 0 0 20px var(--green-glow);
+        }
+
+        .toast.error {
+            border-color: var(--magenta);
+            box-shadow: 0 0 20px var(--red-glow);
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(-20px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .logo-badge {
@@ -151,12 +203,6 @@
             background-color: rgba(37, 244, 238, 0.25);
         }
 
-        .btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
         .user-header {
             display: flex;
             align-items: center;
@@ -187,10 +233,6 @@
             background: #334155;
             flex-shrink: 0;
             aspect-ratio: 1 / 1;
-        }
-
-        .user-details {
-            min-width: 0;
         }
 
         .user-details h3 {
@@ -370,22 +412,52 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            font-weight: 600;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
             cursor: pointer;
             text-align: center;
-            transition: all 0.2s;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
+            position: relative;
         }
 
-        .option-btn:hover {
+        .option-btn:hover:not(:disabled) {
             border-color: var(--cyan);
-            background: rgba(37, 244, 238, 0.05);
+            background: rgba(37, 244, 238, 0.08);
+            transform: translateY(-1px);
+        }
+
+        /* RESPONSE STATES */
+        .option-btn.correct {
+            background-color: rgba(34, 197, 94, 0.2) !important;
+            border-color: var(--green) !important;
+            color: #4ade80 !important;
+            box-shadow: 0 0 20px var(--green-glow) !important;
+            animation: pulseCorrect 0.6s ease-in-out infinite alternate;
+        }
+
+        .option-btn.incorrect {
+            background-color: rgba(254, 44, 85, 0.2) !important;
+            border-color: var(--magenta) !important;
+            color: #f87171 !important;
+            box-shadow: 0 0 20px var(--red-glow) !important;
+            animation: shakeIncorrect 0.4s ease-in-out;
+        }
+
+        @keyframes pulseCorrect {
+            from { transform: scale(1); }
+            to { transform: scale(1.02); }
+        }
+
+        @keyframes shakeIncorrect {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
         }
 
         .debug-info-box {
@@ -435,6 +507,10 @@
     </style>
 </head>
 <body>
+
+    <!-- CONTAINER DE TOASTS CUSTOM -->
+    <div id="toast-container"></div>
+
     <div class="container">
         <div class="logo-badge">
             <svg viewBox="0 0 24 24">
@@ -547,25 +623,56 @@
     <script>
         const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
-        // Muestra de vídeos de formato vertical para las rondas
         const TIKTOK_VIDEOS = [
             "https://assets.mixkit.co/videos/preview/mixkit-vertical-shot-of-a-woman-dancing-40032-large.mp4",
             "https://assets.mixkit.co/videos/preview/mixkit-young-woman-skateboarding-on-a-street-41228-large.mp4",
             "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smartphone-scrolling-on-social-media-41120-large.mp4"
         ];
 
+        // PROXY RESOLVER PARA PFP DE TIKTOK (Elimina bloqueos de CORS y Referrer)
+        function formatAvatarUrl(url) {
+            if (!url) return FALLBACK_AVATAR;
+            if (url.startsWith('data:') || url.startsWith('blob:')) return url;
+            // Pasa URLs remotas de TikTok por proxy de caché de imágenes
+            if (url.includes('tiktok') || url.includes('byteimg') || url.startsWith('http')) {
+                return `https://wsrv.nl/?url=${encodeURIComponent(url)}&output=webp`;
+            }
+            return url;
+        }
+
         let currentUser = {
             name: localStorage.getItem('tiktok_user_name') || "yuki.yoshikawa.goat",
-            avatar: localStorage.getItem('tiktok_user_avatar') || ""
+            avatar: formatAvatarUrl(localStorage.getItem('tiktok_user_avatar'))
         };
 
         let players = [];
         let currentTargetPlayer = null;
         let isDebugVisible = false;
+        let answerSubmitted = false;
         const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
 
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
+
+        // NOTIFICACIONES CUSTOM (Sustituye alert())
+        function showToast(message, type = 'info') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            const text = document.createElement('span');
+            text.innerText = message;
+            
+            toast.appendChild(text);
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-10px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
 
         if (code) {
             document.getElementById('landing-view').classList.add('hidden');
@@ -584,12 +691,7 @@
             document.getElementById('user-name-lobby').innerText = currentUser.name;
             
             const avatarImg = document.getElementById('user-avatar-lobby');
-            if (currentUser.avatar) {
-                avatarImg.src = currentUser.avatar;
-            } else {
-                avatarImg.src = FALLBACK_AVATAR;
-            }
-
+            avatarImg.src = currentUser.avatar;
             avatarImg.onerror = function() { 
                 this.src = FALLBACK_AVATAR; 
             };
@@ -597,7 +699,7 @@
             players = [{
                 id: 'host',
                 name: currentUser.name,
-                avatar: currentUser.avatar || FALLBACK_AVATAR,
+                avatar: currentUser.avatar,
                 isHost: true
             }];
 
@@ -615,7 +717,7 @@
                 const img = document.createElement('img');
                 img.className = 'player-avatar';
                 img.setAttribute('referrerpolicy', 'no-referrer');
-                img.src = p.avatar || FALLBACK_AVATAR;
+                img.src = p.avatar;
                 img.onerror = function() { this.src = FALLBACK_AVATAR; };
 
                 const nameSpan = document.createElement('span');
@@ -667,23 +769,22 @@
         function copyInviteLink() {
             const inviteUrl = `${window.location.origin}${window.location.pathname}?room=${roomCode}`;
             navigator.clipboard.writeText(inviteUrl).then(() => {
-                alert('¡Enlace de invitación copiado al portapapeles!');
+                showToast('¡Enlace de invitación copiado al portapapeles!', 'success');
             }).catch(() => {
-                prompt('Copia este enlace:', inviteUrl);
+                showToast('No se pudo copiar el enlace automáticamente.', 'error');
             });
         }
 
         function startGame() {
             if (players.length < 3) return;
+            answerSubmitted = false;
 
             document.getElementById('lobby-view').classList.add('hidden');
             document.getElementById('game-view').classList.remove('hidden');
 
-            // Elegir un jugador objetivo aleatorio
             currentTargetPlayer = players[Math.floor(Math.random() * players.length)];
             document.getElementById('debug-target-name').innerText = `@${currentTargetPlayer.name}`;
 
-            // Asignar vídeo de la ronda
             const videoElem = document.getElementById('game-video');
             const videoSrc = document.getElementById('video-source');
             const randomVideo = TIKTOK_VIDEOS[Math.floor(Math.random() * TIKTOK_VIDEOS.length)];
@@ -692,7 +793,6 @@
             videoElem.load();
             videoElem.play().catch(() => {});
 
-            // Generar opciones de respuesta (incluyendo el jugador correcto)
             const optionsGrid = document.getElementById('options-grid');
             optionsGrid.innerHTML = '';
 
@@ -706,15 +806,32 @@
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerText = `@${p.name.replace(/\s+/g, '_')}`;
-                btn.onclick = function() {
-                    if (p.id === currentTargetPlayer.id) {
-                        alert('¡Correcto! Le dio Like a este vídeo.');
-                    } else {
-                        alert(`Incorrecto. Le dio Like a este vídeo @${currentTargetPlayer.name}.`);
-                    }
-                };
+                btn.dataset.playerId = p.id;
+                btn.onclick = function() { handleAnswerSelect(p, btn); };
                 optionsGrid.appendChild(btn);
             });
+        }
+
+        function handleAnswerSelect(selectedPlayer, btnElement) {
+            if (answerSubmitted) return;
+            answerSubmitted = true;
+
+            const allBtns = document.querySelectorAll('.option-btn');
+            allBtns.forEach(b => b.disabled = true);
+
+            if (selectedPlayer.id === currentTargetPlayer.id) {
+                btnElement.classList.add('correct');
+                showToast(`¡Correcto! @${currentTargetPlayer.name} le dio Like a este vídeo.`, 'success');
+            } else {
+                btnElement.classList.add('incorrect');
+                // Resaltar también el botón correcto
+                allBtns.forEach(b => {
+                    if (b.dataset.playerId === currentTargetPlayer.id) {
+                        b.classList.add('correct');
+                    }
+                });
+                showToast(`¡Incorrecto! Le dio Like @${currentTargetPlayer.name}.`, 'error');
+            }
         }
 
         function toggleDebugTarget() {
