@@ -403,10 +403,10 @@
             color: var(--text-main);
         }
 
-        /* Reproductor con iframe oficial en formato vertical vertical limpio */
+        /* Contenedor adaptado a reproductor de vídeo limpio sin UI */
         .video-container {
             width: 100%;
-            height: 500px;
+            height: 480px;
             background: #000;
             border-radius: 16px;
             overflow: hidden;
@@ -418,10 +418,11 @@
             align-items: center;
         }
 
-        .video-container iframe {
+        .video-container video {
             width: 100%;
             height: 100%;
-            border: none;
+            object-fit: cover;
+            border-radius: 14px;
         }
 
         .options-grid {
@@ -675,8 +676,11 @@
     <script>
         const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
+        // Lista de URLs directas a archivos .mp4 (obtenidas via TikTok API / CDN / Servidor propio)
         const TIKTOK_VIDEOS = [
-            "https://www.tiktok.com/@american_home_inspector/video/7679183824009383201"
+            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
         ];
 
         const TOTAL_ROUNDS = 5;
@@ -827,24 +831,21 @@
             });
         }
 
+        // Carga directa mediante etiqueta nativa <video> de HTML5 sin UI
         function loadVideoEmbed(url) {
-    const container = document.getElementById('video-container');
-    container.innerHTML = '';
+            const container = document.getElementById('video-container');
+            container.innerHTML = '';
 
-    // Para la etiqueta <video> necesitas la dirección directa del archivo .mp4
-    const video = document.createElement('video');
-    video.src = url; // Debe ser un enlace directo a archivo MP4
-    video.autoplay = true;
-    video.loop = true;
-    video.muted = true; // Requerido por los navegadores para autoplay
-    video.playsInline = true;
-    video.controls = false; // Elimina cualquier control e interfaz
-    video.style.width = '100%';
-    video.style.height = '100%';
-    video.style.objectFit = 'cover';
+            const video = document.createElement('video');
+            video.src = url;
+            video.autoplay = true;
+            video.loop = true;
+            video.muted = true;
+            video.controls = false;
+            video.setAttribute('playsinline', '');
 
-    container.appendChild(video);
-}
+            container.appendChild(video);
+        }
 
         function startGame() {
             if (players.length < 3) return;
@@ -937,6 +938,7 @@
 
         function showResults() {
             document.getElementById('game-view').classList.add('hidden');
+            document.getElementById('results-view').classList.add('hidden');
             document.getElementById('results-view').classList.remove('hidden');
 
             document.getElementById('final-score').innerText = `${score} / ${TOTAL_ROUNDS}`;
