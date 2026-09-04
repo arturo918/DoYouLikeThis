@@ -405,8 +405,8 @@
 
         .video-container {
             width: 100%;
-            min-height: 320px;
-            max-height: 380px;
+            min-height: 340px;
+            max-height: 420px;
             background: #000;
             border-radius: 14px;
             overflow-y: auto;
@@ -414,7 +414,7 @@
             border: 1px solid var(--border);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             position: relative;
         }
 
@@ -423,15 +423,6 @@
             padding: 0 !important;
             width: 100% !important;
             max-width: 100% !important;
-        }
-
-        .fallback-card {
-            padding: 2rem;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
         }
 
         .options-grid {
@@ -487,14 +478,21 @@
         }
 
         .debug-info-box {
-            background: rgba(254, 44, 85, 0.15);
-            border: 1px dashed var(--magenta);
-            color: #ff8da1;
-            padding: 8px 12px;
-            border-radius: 8px;
+            background: rgba(37, 244, 238, 0.08);
+            border: 1px dashed var(--cyan);
+            color: var(--text-main);
+            padding: 10px 14px;
+            border-radius: 10px;
             font-size: 0.85rem;
             margin-bottom: 1rem;
-            font-weight: 600;
+            font-weight: 500;
+            text-align: left;
+        }
+
+        .debug-info-box a {
+            color: var(--cyan);
+            word-break: break-all;
+            text-decoration: underline;
         }
 
         .results-box {
@@ -627,7 +625,9 @@
                 <div id="video-container" class="video-container"></div>
 
                 <div id="debug-target-box" class="debug-info-box hidden">
-                    🐛 DEBUG INFO: Video liked by <strong id="debug-target-name">@user</strong>
+                    <div>🐛 <strong>DEBUG PANEL:</strong></div>
+                    <div style="margin-top: 4px;">Target User: <strong id="debug-target-name">@user</strong></div>
+                    <div style="margin-top: 4px;">TikTok URL: <a id="debug-video-link" href="#" target="_blank">---</a></div>
                 </div>
 
                 <div class="game-question">Guess which lobby member liked this video:</div>
@@ -676,14 +676,15 @@
     <script>
         const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
+        // URLs canónicas de TikTok con ID numérico completo requeridas para embed.js
         const TIKTOK_VIDEOS = [
-            "https://vm.tiktok.com/ZN8YXBfe7/",
-            "https://vm.tiktok.com/ZN8YXNcCS/",
-            "https://vm.tiktok.com/ZN8YXkcHh/",
-            "https://vm.tiktok.com/ZN8YX2RpF/",
-            "https://vm.tiktok.com/ZN8YXjfVT/",
-            "https://vm.tiktok.com/ZN8YXSyRT/",
-            "https://vm.tiktok.com/ZN8YXkUyw/"
+            "https://www.tiktok.com/@tiktok/video/7106594312293027114",
+            "https://www.tiktok.com/@khaby.lame/video/6963912204517313798",
+            "https://www.tiktok.com/@zachking/video/6768504823336963334",
+            "https://www.tiktok.com/@bellapoarch/video/6862153058223197445",
+            "https://www.tiktok.com/@charlidamelio/video/6938928096238324998",
+            "https://www.tiktok.com/@addisonre/video/6883204961556041221",
+            "https://www.tiktok.com/@fcbarcelona/video/7200112233442118918"
         ];
 
         const TOTAL_ROUNDS = 5;
@@ -838,10 +839,13 @@
             const container = document.getElementById('video-container');
             container.innerHTML = '';
 
+            const videoIdMatch = url.match(/\/video\/(\d+)/);
+            const videoId = videoIdMatch ? videoIdMatch[1] : '';
+
             const blockquote = document.createElement('blockquote');
             blockquote.className = 'tiktok-embed';
             blockquote.setAttribute('cite', url);
-            blockquote.setAttribute('data-video-id', '');
+            blockquote.setAttribute('data-video-id', videoId);
             blockquote.style.maxWidth = '100%';
             
             const section = document.createElement('section');
@@ -862,18 +866,6 @@
             script.src = 'https://www.tiktok.com/embed.js';
             script.async = true;
             
-            script.onerror = function() {
-                container.innerHTML = `
-                    <div class="fallback-card">
-                        <div style="font-size: 2rem;">🎵</div>
-                        <div style="font-weight: 700; font-size: 1rem;">TikTok Video Loaded</div>
-                        <a href="${url}" target="_blank" class="btn btn-secondary" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">
-                            ↗️ Open Video in TikTok
-                        </a>
-                    </div>
-                `;
-            };
-
             document.body.appendChild(script);
         }
 
@@ -898,10 +890,15 @@
             document.getElementById('score-indicator').innerText = `Score: ${score}`;
 
             currentTargetPlayer = players[Math.floor(Math.random() * players.length)];
-            document.getElementById('debug-target-name').innerText = `@${currentTargetPlayer.name}`;
+            const currentVideoUrl = roundVideos[currentRound - 1];
 
-            const videoUrl = roundVideos[currentRound - 1];
-            loadVideoEmbed(videoUrl);
+            // Actualizar panel de Debug
+            document.getElementById('debug-target-name').innerText = `@${currentTargetPlayer.name}`;
+            const debugLink = document.getElementById('debug-video-link');
+            debugLink.href = currentVideoUrl;
+            debugLink.innerText = currentVideoUrl;
+
+            loadVideoEmbed(currentVideoUrl);
 
             const optionsGrid = document.getElementById('options-grid');
             optionsGrid.innerHTML = '';
