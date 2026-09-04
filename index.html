@@ -14,6 +14,7 @@
             --magenta: #fe2c55;
             --magenta-hover: #e02448;
             --border: #334155;
+            --green: #22c55e;
         }
 
         * {
@@ -36,20 +37,24 @@
 
         .container {
             text-align: center;
-            max-width: 540px;
+            max-width: 560px;
             width: 100%;
-            padding: 3rem 2.5rem;
+            padding: 2.5rem 2rem;
             background: rgba(30, 41, 59, 0.85);
             backdrop-filter: blur(12px);
             border-radius: 20px;
             border: 1px solid var(--border);
             box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.6s ease-out;
+            animation: fadeIn 0.4s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden {
+            display: none !important;
         }
 
         .logo-badge {
@@ -61,7 +66,7 @@
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid var(--border);
             border-radius: 16px;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .logo-badge svg {
@@ -71,8 +76,8 @@
         }
 
         h1 {
-            font-size: 2.25rem;
-            margin: 0 0 0.75rem 0;
+            font-size: 2rem;
+            margin: 0 0 0.5rem 0;
             font-weight: 800;
             letter-spacing: -0.025em;
             background: linear-gradient(135deg, var(--cyan), var(--text-main) 40%, var(--magenta));
@@ -82,26 +87,26 @@
 
         p {
             color: var(--text-muted);
-            line-height: 1.6;
-            font-size: 1.05rem;
-            margin: 0 0 2rem 0;
+            line-height: 1.5;
+            font-size: 0.95rem;
+            margin: 0 0 1.5rem 0;
         }
 
         .features {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .feature-tag {
             background: rgba(15, 23, 42, 0.5);
             border: 1px solid var(--border);
             color: var(--cyan);
-            font-size: 0.825rem;
+            font-size: 0.8rem;
             font-weight: 600;
-            padding: 6px 14px;
+            padding: 5px 12px;
             border-radius: 20px;
         }
 
@@ -113,12 +118,14 @@
             width: 100%;
             background-color: var(--magenta);
             color: white;
-            padding: 0.9rem 1.75rem;
+            padding: 0.85rem 1.5rem;
             border-radius: 12px;
             text-decoration: none;
             font-weight: 700;
             font-size: 1rem;
-            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
             box-shadow: 0 4px 20px rgba(254, 44, 85, 0.35);
         }
 
@@ -134,24 +141,137 @@
             fill: currentColor;
         }
 
+        .user-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(15, 23, 42, 0.6);
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--magenta);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            border: 2px solid var(--cyan);
+        }
+
+        .user-details h3 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .user-details span {
+            font-size: 0.75rem;
+            color: var(--green);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--green);
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .quiz-card {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .quiz-title {
+            font-size: 0.8rem;
+            color: var(--cyan);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .quiz-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            text-align: center;
+            transition: border 0.2s;
+        }
+
+        .option-btn:hover {
+            border-color: var(--cyan);
+        }
+
         .footer {
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1rem;
             border-top: 1px solid rgba(51, 65, 85, 0.6);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #64748b;
         }
 
         .footer a {
             color: var(--text-muted);
             text-decoration: none;
-            margin: 0 8px;
-            transition: color 0.2s ease;
+            margin: 0 6px;
         }
 
         .footer a:hover {
             color: var(--cyan);
             text-decoration: underline;
+        }
+
+        .loader {
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid var(--cyan);
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -164,20 +284,56 @@
         </div>
 
         <h1>WhoLikedThat</h1>
-        <p>The ultimate TikTok trivia party game. Connect your account, host a lobby with friends, and guess who liked, favorited, or shared each video!</p>
 
-        <div class="features">
-            <span class="feature-tag">🎮 Kahoot Style</span>
-            <span class="feature-tag">🔒 Official OAuth</span>
-            <span class="feature-tag">⚡ Real-time Lobbies</span>
+        <div id="landing-view">
+            <p>The ultimate TikTok trivia party game. Connect your account, host a lobby with friends, and guess who liked, favorited, or shared each video!</p>
+
+            <div class="features">
+                <span class="feature-tag">🎮 Kahoot Style</span>
+                <span class="feature-tag">🔒 Official OAuth</span>
+                <span class="feature-tag">⚡ Real-time Lobbies</span>
+            </div>
+
+            <a href="https://www.tiktok.com/v2/auth/authorize/?client_key=sbawfkydwech36bll1&response_type=code&scope=user.info.basic&redirect_uri=https%3A%2F%2Farturo918.github.io%2FWhoLikedThat-%2F" class="btn">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.901 2.893 2.897 2.897 0 0 1-2.895-2.9 2.897 2.897 0 0 1 2.895-2.892c.32 0 .633.06.924.173V9.41a6.33 6.33 0 0 0-.924-.068 6.338 6.338 0 0 0-6.332 6.335 6.338 6.338 0 0 0 6.332 6.335 6.33 6.33 0 0 0 6.331-6.335V9.062a8.163 8.163 0 0 0 4.785 1.523v-3.83a4.79 4.79 0 0 1-.905-.069z"/>
+                </svg>
+                Log in with TikTok
+            </a>
         </div>
 
-        <a href="https://www.tiktok.com/v2/auth/authorize/?client_key=sbawfkydwech36bll1&response_type=code&scope=user.info.basic&redirect_uri=https://arturo918.github.io/WhoLikedThat-/" class="btn">
-            <svg viewBox="0 0 24 24">
-                <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.901 2.893 2.897 2.897 0 0 1-2.895-2.9 2.897 2.897 0 0 1 2.895-2.892c.32 0 .633.06.924.173V9.41a6.33 6.33 0 0 0-.924-.068 6.338 6.338 0 0 0-6.332 6.335 6.338 6.338 0 0 0 6.332 6.335 6.33 6.33 0 0 0 6.331-6.335V9.062a8.163 8.163 0 0 0 4.785 1.523v-3.83a4.79 4.79 0 0 1-.905-.069z"/>
-            </svg>
-            Log in with TikTok
-        </a>
+        <div id="loading-view" class="hidden">
+            <div class="loader"></div>
+            <p>Authenticating & processing TikTok activity data...</p>
+        </div>
+
+        <div id="game-view" class="hidden">
+            <div class="user-header">
+                <div class="user-info">
+                    <div class="avatar" id="user-avatar">T</div>
+                    <div class="user-details">
+                        <h3 id="user-name">TikTok User</h3>
+                        <span>● Connected via OAuth</span>
+                    </div>
+                </div>
+                <div class="status-badge">EEA Data Active</div>
+            </div>
+
+            <div class="quiz-card">
+                <div class="quiz-title">Round 1 • Interaction Trivia</div>
+                <div class="quiz-question">Which of these viral videos did @TikTokUser like recently?</div>
+                <div class="options-grid">
+                    <button class="option-btn">Option A</button>
+                    <button class="option-btn">Option B</button>
+                    <button class="option-btn">Option C</button>
+                    <button class="option-btn">Option D</button>
+                </div>
+            </div>
+
+            <button class="btn" onclick="location.href='https://arturo918.github.io/WhoLikedThat-/'">
+                Start New Party Lobby
+            </button>
+        </div>
 
         <div class="footer">
             <a href="privacy.html">Privacy Policy</a> • 
@@ -185,5 +341,20 @@
             <a href="support.html">Support</a>
         </div>
     </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+
+        if (code) {
+            document.getElementById('landing-view').classList.add('hidden');
+            document.getElementById('loading-view').classList.remove('hidden');
+
+            setTimeout(() => {
+                document.getElementById('loading-view').classList.add('hidden');
+                document.getElementById('game-view').classList.remove('hidden');
+            }, 1200);
+        }
+    </script>
 </body>
 </html>
