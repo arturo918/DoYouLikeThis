@@ -340,25 +340,24 @@
             color: var(--text-main);
         }
 
-        .video-placeholder {
+        .video-container {
             width: 100%;
-            height: 200px;
+            max-height: 320px;
+            height: 320px;
             background: #000;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            border-radius: 12px;
+            overflow: hidden;
             margin-bottom: 1rem;
             border: 1px solid var(--border);
-            color: var(--text-muted);
-            gap: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .video-placeholder svg {
-            width: 36px;
-            height: 36px;
-            fill: var(--magenta);
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
         }
 
         .options-grid {
@@ -387,6 +386,17 @@
         .option-btn:hover {
             border-color: var(--cyan);
             background: rgba(37, 244, 238, 0.05);
+        }
+
+        .debug-info-box {
+            background: rgba(254, 44, 85, 0.15);
+            border: 1px dashed var(--magenta);
+            color: #ff8da1;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
         }
 
         .footer {
@@ -456,7 +466,7 @@
         <div id="lobby-view" class="hidden">
             <div class="user-header">
                 <div class="user-info">
-                    <img id="user-avatar-lobby" class="avatar" src="" alt="User Avatar" />
+                    <img id="user-avatar-lobby" class="avatar" src="" alt="User Avatar" referrerpolicy="no-referrer" />
                     <div class="user-details">
                         <h3 id="user-name-lobby">Loading...</h3>
                         <span>● Connected via OAuth</span>
@@ -499,21 +509,32 @@
         <div id="game-view" class="hidden">
             <div class="game-card">
                 <div class="game-title">Round 1 • Who liked this TikTok?</div>
-                <div class="video-placeholder">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    <span>TikTok Video Stream</span>
+                
+                <div class="video-container">
+                    <video id="game-video" autoplay loop muted playsinline controls>
+                        <source id="video-source" src="" type="video/mp4">
+                        Your browser does not support video playback.
+                    </video>
                 </div>
+
+                <div id="debug-target-box" class="debug-info-box hidden">
+                    🐛 DEBUG INFO: Video liked by <strong id="debug-target-name">@user</strong>
+                </div>
+
                 <div class="game-question">Guess which lobby member liked this video:</div>
                 <div class="options-grid" id="options-grid">
                     <!-- Opciones dinámicas -->
                 </div>
             </div>
 
-            <button class="btn btn-secondary" onclick="returnToLobby()">
-                Leave Game to Lobby
-            </button>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary" onclick="returnToLobby()">
+                    Leave Game to Lobby
+                </button>
+                <button class="btn btn-debug" style="margin-top: 0; width: auto;" onclick="toggleDebugTarget()">
+                    🐛 Toggle Debug Info
+                </button>
+            </div>
         </div>
 
         <div class="footer">
@@ -526,12 +547,21 @@
     <script>
         const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
+        // Muestra de vídeos de formato vertical para las rondas
+        const TIKTOK_VIDEOS = [
+            "https://assets.mixkit.co/videos/preview/mixkit-vertical-shot-of-a-woman-dancing-40032-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-young-woman-skateboarding-on-a-street-41228-large.mp4",
+            "https://assets.mixkit.co/videos/preview/mixkit-hands-holding-a-smartphone-scrolling-on-social-media-41120-large.mp4"
+        ];
+
         let currentUser = {
-            name: localStorage.getItem('tiktok_user_name') || "Average romance anime enjoyer",
+            name: localStorage.getItem('tiktok_user_name') || "yuki.yoshikawa.goat",
             avatar: localStorage.getItem('tiktok_user_avatar') || ""
         };
 
         let players = [];
+        let currentTargetPlayer = null;
+        let isDebugVisible = false;
         const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -584,6 +614,7 @@
                 
                 const img = document.createElement('img');
                 img.className = 'player-avatar';
+                img.setAttribute('referrerpolicy', 'no-referrer');
                 img.src = p.avatar || FALLBACK_AVATAR;
                 img.onerror = function() { this.src = FALLBACK_AVATAR; };
 
@@ -648,19 +679,57 @@
             document.getElementById('lobby-view').classList.add('hidden');
             document.getElementById('game-view').classList.remove('hidden');
 
+            // Elegir un jugador objetivo aleatorio
+            currentTargetPlayer = players[Math.floor(Math.random() * players.length)];
+            document.getElementById('debug-target-name').innerText = `@${currentTargetPlayer.name}`;
+
+            // Asignar vídeo de la ronda
+            const videoElem = document.getElementById('game-video');
+            const videoSrc = document.getElementById('video-source');
+            const randomVideo = TIKTOK_VIDEOS[Math.floor(Math.random() * TIKTOK_VIDEOS.length)];
+            
+            videoSrc.src = randomVideo;
+            videoElem.load();
+            videoElem.play().catch(() => {});
+
+            // Generar opciones de respuesta (incluyendo el jugador correcto)
             const optionsGrid = document.getElementById('options-grid');
             optionsGrid.innerHTML = '';
 
-            const shuffled = [...players].sort(() => 0.5 - Math.random()).slice(0, 4);
-            shuffled.forEach(p => {
+            let choices = [currentTargetPlayer];
+            let otherPlayers = players.filter(p => p.id !== currentTargetPlayer.id);
+            otherPlayers.sort(() => 0.5 - Math.random());
+            choices = choices.concat(otherPlayers.slice(0, 3));
+            choices.sort(() => 0.5 - Math.random());
+
+            choices.forEach(p => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
                 btn.innerText = `@${p.name.replace(/\s+/g, '_')}`;
+                btn.onclick = function() {
+                    if (p.id === currentTargetPlayer.id) {
+                        alert('¡Correcto! Le dio Like a este vídeo.');
+                    } else {
+                        alert(`Incorrecto. Le dio Like a este vídeo @${currentTargetPlayer.name}.`);
+                    }
+                };
                 optionsGrid.appendChild(btn);
             });
         }
 
+        function toggleDebugTarget() {
+            isDebugVisible = !isDebugVisible;
+            const debugBox = document.getElementById('debug-target-box');
+            if (isDebugVisible) {
+                debugBox.classList.remove('hidden');
+            } else {
+                debugBox.classList.add('hidden');
+            }
+        }
+
         function returnToLobby() {
+            const videoElem = document.getElementById('game-video');
+            videoElem.pause();
             document.getElementById('game-view').classList.add('hidden');
             document.getElementById('lobby-view').classList.remove('hidden');
         }
