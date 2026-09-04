@@ -828,21 +828,23 @@
         }
 
         function loadVideoEmbed(url) {
-            const container = document.getElementById('video-container');
-            container.innerHTML = '';
+    const container = document.getElementById('video-container');
+    container.innerHTML = '';
 
-            const videoIdMatch = url.match(/\/video\/(\d+)/);
-            const videoId = videoIdMatch ? videoIdMatch[1] : '';
+    // Para la etiqueta <video> necesitas la dirección directa del archivo .mp4
+    const video = document.createElement('video');
+    video.src = url; // Debe ser un enlace directo a archivo MP4
+    video.autoplay = true;
+    video.loop = true;
+    video.muted = true; // Requerido por los navegadores para autoplay
+    video.playsInline = true;
+    video.controls = false; // Elimina cualquier control e interfaz
+    video.style.width = '100%';
+    video.style.height = '100%';
+    video.style.objectFit = 'cover';
 
-            if (!videoId) return;
-
-            // Integración oficial conforme a las políticas de TikTok for Developers (Embed Player v2)
-            const iframe = document.createElement('iframe');
-            iframe.src = `https://www.tiktok.com/embed/v2/${videoId}`;
-            iframe.allow = "autoplay; encrypted-media; picture-in-picture";
-            
-            container.appendChild(iframe);
-        }
+    container.appendChild(video);
+}
 
         function startGame() {
             if (players.length < 3) return;
