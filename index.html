@@ -403,26 +403,29 @@
             color: var(--text-main);
         }
 
+        /* Contenedor limpiado para mostrar solo el vídeo recortando la UI */
         .video-container {
             width: 100%;
-            min-height: 340px;
-            max-height: 420px;
+            height: 480px;
             background: #000;
             border-radius: 14px;
-            overflow-y: auto;
+            overflow: hidden;
             margin-bottom: 1rem;
             border: 1px solid var(--border);
+            position: relative;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            position: relative;
+            align-items: center;
         }
 
-        .tiktok-embed {
-            margin: 0 !important;
-            padding: 0 !important;
-            width: 100% !important;
-            max-width: 100% !important;
+        .video-container iframe {
+            width: 130%;
+            height: 130%;
+            border: none;
+            position: absolute;
+            top: -15%;
+            left: -15%;
+            pointer-events: auto;
         }
 
         .options-grid {
@@ -676,7 +679,6 @@
     <script>
         const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
-        // URL canónica para las pruebas
         const TIKTOK_VIDEOS = [
             "https://www.tiktok.com/@american_home_inspector/video/7679183824009383201"
         ];
@@ -836,27 +838,14 @@
             const videoIdMatch = url.match(/\/video\/(\d+)/);
             const videoId = videoIdMatch ? videoIdMatch[1] : '';
 
-            const blockquote = document.createElement('blockquote');
-            blockquote.className = 'tiktok-embed';
-            blockquote.setAttribute('cite', url);
-            if (videoId) {
-                blockquote.setAttribute('data-video-id', videoId);
-            }
-            blockquote.style.maxWidth = '100%';
-            
-            const section = document.createElement('section');
-            blockquote.appendChild(section);
-            container.appendChild(blockquote);
+            if (!videoId) return;
 
-            const oldScript = document.getElementById('tiktok-embed-script');
-            if (oldScript) oldScript.remove();
-
-            const script = document.createElement('script');
-            script.id = 'tiktok-embed-script';
-            script.src = 'https://www.tiktok.com/embed.js';
-            script.async = true;
+            // Uso de IFrame directo al reproductor v2 sin scripts secundarios ni avisos
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.tiktok.com/embed/v2/${videoId}`;
+            iframe.allow = "autoplay; encrypted-media; picture-in-picture";
             
-            document.body.appendChild(script);
+            container.appendChild(iframe);
         }
 
         function startGame() {
