@@ -403,7 +403,7 @@
             color: var(--text-main);
         }
 
-        /* Contenedor adaptado a reproductor de vídeo limpio sin UI */
+        /* Contenedor con recortado por CSS (Clipping) para ocultar UI del iframe */
         .video-container {
             width: 100%;
             height: 480px;
@@ -413,16 +413,16 @@
             margin-bottom: 1rem;
             border: 1px solid var(--border);
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        .video-container video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 14px;
+        .video-container iframe {
+            position: absolute;
+            top: -65px;
+            left: -15%;
+            width: 130%;
+            height: calc(100% + 140px);
+            border: none;
+            pointer-events: none; /* Desactiva interacción con la UI original de TikTok */
         }
 
         .options-grid {
@@ -676,11 +676,11 @@
     <script>
         const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
-        // Lista de URLs directas a archivos .mp4 (obtenidas via TikTok API / CDN / Servidor propio)
+        // IDs de vídeo de TikTok estándar para el reproductor embebido
         const TIKTOK_VIDEOS = [
-            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+            "7401584982601714975",
+            "7350123456789012345",
+            "7290123456789012345"
         ];
 
         const TOTAL_ROUNDS = 5;
@@ -831,20 +831,16 @@
             });
         }
 
-        // Carga directa mediante etiqueta nativa <video> de HTML5 sin UI
-        function loadVideoEmbed(url) {
+        // Carga mediante iframe oficial de TikTok recortado por CSS
+        function loadVideoEmbed(videoId) {
             const container = document.getElementById('video-container');
             container.innerHTML = '';
 
-            const video = document.createElement('video');
-            video.src = url;
-            video.autoplay = true;
-            video.loop = true;
-            video.muted = true;
-            video.controls = false;
-            video.setAttribute('playsinline', '');
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.tiktok.com/embed/v2/${videoId}?lang=en-US`;
+            iframe.allow = "fullscreen";
 
-            container.appendChild(video);
+            container.appendChild(iframe);
         }
 
         function startGame() {
@@ -868,14 +864,15 @@
             document.getElementById('score-indicator').innerText = `Score: ${score}`;
 
             currentTargetPlayer = players[Math.floor(Math.random() * players.length)];
-            const currentVideoUrl = roundVideos[(currentRound - 1) % roundVideos.length];
+            const currentVideoId = roundVideos[(currentRound - 1) % roundVideos.length];
 
             document.getElementById('debug-target-name').innerText = `@${currentTargetPlayer.name}`;
             const debugLink = document.getElementById('debug-video-link');
-            debugLink.href = currentVideoUrl;
-            debugLink.innerText = currentVideoUrl;
+            const fullUrl = `https://www.tiktok.com/embed/v2/${currentVideoId}`;
+            debugLink.href = fullUrl;
+            debugLink.innerText = fullUrl;
 
-            loadVideoEmbed(currentVideoUrl);
+            loadVideoEmbed(currentVideoId);
 
             const optionsGrid = document.getElementById('options-grid');
             optionsGrid.innerHTML = '';
