@@ -403,12 +403,12 @@
             color: var(--text-main);
         }
 
-        /* Contenedor limpiado para mostrar solo el vídeo recortando la UI */
+        /* Reproductor con iframe oficial en formato vertical vertical limpio */
         .video-container {
             width: 100%;
-            height: 480px;
+            height: 500px;
             background: #000;
-            border-radius: 14px;
+            border-radius: 16px;
             overflow: hidden;
             margin-bottom: 1rem;
             border: 1px solid var(--border);
@@ -419,13 +419,9 @@
         }
 
         .video-container iframe {
-            width: 130%;
-            height: 130%;
+            width: 100%;
+            height: 100%;
             border: none;
-            position: absolute;
-            top: -15%;
-            left: -15%;
-            pointer-events: auto;
         }
 
         .options-grid {
@@ -840,7 +836,7 @@
 
             if (!videoId) return;
 
-            // Uso de IFrame directo al reproductor v2 sin scripts secundarios ni avisos
+            // Integración oficial conforme a las políticas de TikTok for Developers (Embed Player v2)
             const iframe = document.createElement('iframe');
             iframe.src = `https://www.tiktok.com/embed/v2/${videoId}`;
             iframe.allow = "autoplay; encrypted-media; picture-in-picture";
