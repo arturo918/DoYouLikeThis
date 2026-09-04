@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhoLikedThat - TikTok Trivia Game</title>
+    <title>DoYouLikeThis? - TikTok Party Game</title>
     <style>
         :root {
             --bg-color: #0f172a;
@@ -160,16 +160,12 @@
         }
 
         .avatar {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             border-radius: 50%;
-            background: var(--magenta);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
+            object-fit: cover;
             border: 2px solid var(--cyan);
+            background: var(--card-bg);
         }
 
         .user-details h3 {
@@ -193,7 +189,7 @@
             border: 1px solid rgba(34, 197, 94, 0.3);
         }
 
-        .quiz-card {
+        .game-card {
             background: rgba(15, 23, 42, 0.4);
             border: 1px solid var(--border);
             border-radius: 12px;
@@ -202,7 +198,7 @@
             text-align: left;
         }
 
-        .quiz-title {
+        .game-title {
             font-size: 0.8rem;
             color: var(--cyan);
             text-transform: uppercase;
@@ -211,11 +207,32 @@
             margin-bottom: 8px;
         }
 
-        .quiz-question {
-            font-size: 1.1rem;
+        .game-question {
+            font-size: 1.05rem;
             font-weight: 600;
             margin-bottom: 1rem;
             color: var(--text-main);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            height: 200px;
+            background: #000;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            gap: 8px;
+        }
+
+        .video-placeholder svg {
+            width: 36px;
+            height: 36px;
+            fill: var(--magenta);
         }
 
         .options-grid {
@@ -228,16 +245,22 @@
             background: var(--card-bg);
             border: 1px solid var(--border);
             color: var(--text-main);
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             font-size: 0.875rem;
+            font-weight: 600;
             cursor: pointer;
             text-align: center;
-            transition: border 0.2s;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .option-btn:hover {
             border-color: var(--cyan);
+            background: rgba(37, 244, 238, 0.05);
         }
 
         .footer {
@@ -283,10 +306,10 @@
             </svg>
         </div>
 
-        <h1>WhoLikedThat</h1>
+        <h1>DoYouLikeThis?</h1>
 
         <div id="landing-view">
-            <p>The ultimate TikTok trivia party game. Connect your account, host a lobby with friends, and guess who liked, favorited, or shared each video!</p>
+            <p>The multiplayer TikTok guessing game. Watch a video from the lobby's feed and guess which of your friends liked it!</p>
 
             <div class="features">
                 <span class="feature-tag">🎮 Kahoot Style</span>
@@ -304,34 +327,40 @@
 
         <div id="loading-view" class="hidden">
             <div class="loader"></div>
-            <p>Authenticating & processing TikTok activity data...</p>
+            <p>Retrieving user profile and activity from TikTok...</p>
         </div>
 
         <div id="game-view" class="hidden">
             <div class="user-header">
                 <div class="user-info">
-                    <div class="avatar" id="user-avatar">T</div>
+                    <img id="user-avatar" class="avatar" src="" alt="User Avatar" />
                     <div class="user-details">
-                        <h3 id="user-name">TikTok User</h3>
+                        <h3 id="user-name">Loading...</h3>
                         <span>● Connected via OAuth</span>
                     </div>
                 </div>
                 <div class="status-badge">EEA Data Active</div>
             </div>
 
-            <div class="quiz-card">
-                <div class="quiz-title">Round 1 • Interaction Trivia</div>
-                <div class="quiz-question">Which of these viral videos did @TikTokUser like recently?</div>
+            <div class="game-card">
+                <div class="game-title">Round 1 • Who liked this TikTok?</div>
+                <div class="video-placeholder">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                    </svg>
+                    <span>TikTok Video Stream</span>
+                </div>
+                <div class="game-question">Guess which lobby member liked this video:</div>
                 <div class="options-grid">
-                    <button class="option-btn">Option A</button>
-                    <button class="option-btn">Option B</button>
-                    <button class="option-btn">Option C</button>
-                    <button class="option-btn">Option D</button>
+                    <button class="option-btn" id="opt-user">Loading...</button>
+                    <button class="option-btn">@Alex_TikTok</button>
+                    <button class="option-btn">@Maria_G</button>
+                    <button class="option-btn">@David_R</button>
                 </div>
             </div>
 
             <button class="btn" onclick="location.href='https://arturo918.github.io/WhoLikedThat-/'">
-                Start New Party Lobby
+                Start New Lobby
             </button>
         </div>
 
@@ -350,10 +379,31 @@
             document.getElementById('landing-view').classList.add('hidden');
             document.getElementById('loading-view').classList.remove('hidden');
 
+            fetchUserData(code);
+        }
+
+        function fetchUserData(authCode) {
             setTimeout(() => {
+                const mockProfile = {
+                    display_name: "Average romance anime enjoyer",
+                    avatar_url: "https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/7310000000000000000~c5_100x100.jpeg"
+                };
+
+                const savedName = localStorage.getItem('tiktok_user_name') || mockProfile.display_name;
+                const savedAvatar = localStorage.getItem('tiktok_user_avatar') || mockProfile.avatar_url;
+
+                document.getElementById('user-name').innerText = savedName;
+                document.getElementById('opt-user').innerText = "@" + savedName.replace(/\s+/g, '_');
+                
+                const imgElem = document.getElementById('user-avatar');
+                imgElem.src = savedAvatar;
+                imgElem.onerror = function() {
+                    this.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='42' height='42' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
+                };
+
                 document.getElementById('loading-view').classList.add('hidden');
                 document.getElementById('game-view').classList.remove('hidden');
-            }, 1200);
+            }, 1000);
         }
     </script>
 </body>
