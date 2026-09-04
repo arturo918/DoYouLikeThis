@@ -10,13 +10,13 @@
             --card-bg: #141c2b;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --cyan: #38bdf8;
-            --magenta: #ff2b55;
-            --magenta-hover: #e02045;
+            --cyan: #25f4ee;
+            --magenta: #fe2c55;
+            --magenta-hover: #e02448;
             --border: rgba(255, 255, 255, 0.08);
             --green: #22c55e;
             --green-glow: rgba(34, 197, 94, 0.4);
-            --red-glow: rgba(255, 43, 85, 0.4);
+            --red-glow: rgba(254, 44, 85, 0.4);
             --disabled: #334155;
         }
 
@@ -34,8 +34,8 @@
             min-height: 100vh;
             margin: 0;
             padding: 20px;
-            background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.05) 0%, transparent 60%),
-                              radial-gradient(circle at 80% 100%, rgba(255, 43, 85, 0.05) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 50% 0%, rgba(37, 244, 238, 0.06) 0%, transparent 60%),
+                              radial-gradient(circle at 80% 100%, rgba(254, 44, 85, 0.06) 0%, transparent 50%);
         }
 
         .container {
@@ -126,60 +126,50 @@
 
         h1 {
             font-size: 2.2rem;
-            margin: 0 0 0.6rem 0;
+            margin: 0 0 0.5rem 0;
             font-weight: 800;
-            letter-spacing: -0.02em;
-        }
-
-        .title-cyan {
-            color: var(--cyan);
-        }
-
-        .title-pink {
-            color: var(--magenta);
+            letter-spacing: -0.025em;
+            background: linear-gradient(135deg, var(--cyan), var(--text-main) 40%, var(--magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         p {
             color: var(--text-muted);
             line-height: 1.5;
             font-size: 0.95rem;
-            margin: 0 0 2rem 0;
+            margin: 0 0 1.5rem 0;
         }
 
         .login-banner {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 12px;
             background-color: var(--magenta);
-            border-radius: 24px;
-            padding: 1.5rem 2rem;
+            border-radius: 14px;
+            padding: 0.85rem 1.5rem;
             text-decoration: none;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            box-shadow: 0 10px 30px rgba(255, 43, 85, 0.35);
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 20px rgba(254, 44, 85, 0.35);
             cursor: pointer;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
         }
 
         .login-banner:hover {
             transform: translateY(-2px);
             background-color: var(--magenta-hover);
-            box-shadow: 0 15px 35px rgba(255, 43, 85, 0.5);
+            box-shadow: 0 8px 25px rgba(254, 44, 85, 0.5);
         }
 
         .login-banner-logo {
-            width: 130px;
-            height: 130px;
-            fill: #000000;
+            width: 22px;
+            height: 22px;
+            fill: #ffffff;
             flex-shrink: 0;
-        }
-
-        .login-banner-text {
-            color: #ffffff;
-            font-size: 1.4rem;
-            font-weight: 800;
-            text-align: right;
-            line-height: 1.25;
-            max-width: 150px;
         }
 
         .btn {
@@ -198,7 +188,7 @@
             border: none;
             cursor: pointer;
             transition: all 0.2s ease;
-            box-shadow: 0 4px 20px rgba(255, 43, 85, 0.35);
+            box-shadow: 0 4px 20px rgba(254, 44, 85, 0.35);
         }
 
         .btn:hover:not(:disabled) {
@@ -226,7 +216,7 @@
         }
 
         .btn-debug {
-            background-color: rgba(56, 189, 248, 0.1);
+            background-color: rgba(37, 244, 238, 0.1);
             border: 1px dashed var(--cyan);
             color: var(--cyan);
             box-shadow: none;
@@ -381,13 +371,29 @@
             text-align: left;
         }
 
+        .game-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
         .game-title {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--cyan);
             text-transform: uppercase;
             letter-spacing: 0.05em;
             font-weight: 700;
-            margin-bottom: 8px;
+        }
+
+        .score-tracker {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--green);
+            background: rgba(34, 197, 94, 0.1);
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
         }
 
         .game-question {
@@ -399,21 +405,33 @@
 
         .video-container {
             width: 100%;
-            height: 340px;
+            min-height: 320px;
+            max-height: 380px;
             background: #000;
             border-radius: 14px;
-            overflow: hidden;
+            overflow-y: auto;
             margin-bottom: 1rem;
             border: 1px solid var(--border);
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
-        .video-container iframe, .video-container video {
-            width: 100%;
-            height: 100%;
-            border: none;
+        .tiktok-embed {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .fallback-card {
+            padding: 2rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
         }
 
         .options-grid {
@@ -437,7 +455,7 @@
 
         .option-btn:hover:not(:disabled) {
             border-color: var(--cyan);
-            background: rgba(56, 189, 248, 0.1);
+            background: rgba(37, 244, 238, 0.1);
             transform: translateY(-1px);
         }
 
@@ -450,7 +468,7 @@
         }
 
         .option-btn.incorrect {
-            background-color: rgba(255, 43, 85, 0.2) !important;
+            background-color: rgba(254, 44, 85, 0.2) !important;
             border-color: var(--magenta) !important;
             color: #f87171 !important;
             box-shadow: 0 0 20px var(--red-glow) !important;
@@ -469,7 +487,7 @@
         }
 
         .debug-info-box {
-            background: rgba(255, 43, 85, 0.15);
+            background: rgba(254, 44, 85, 0.15);
             border: 1px dashed var(--magenta);
             color: #ff8da1;
             padding: 8px 12px;
@@ -477,6 +495,22 @@
             font-size: 0.85rem;
             margin-bottom: 1rem;
             font-weight: 600;
+        }
+
+        .results-box {
+            background: rgba(8, 12, 20, 0.6);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-score {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--cyan);
+            margin: 1rem 0;
+            text-shadow: 0 0 20px rgba(37, 244, 238, 0.4);
         }
 
         .footer {
@@ -525,7 +559,7 @@
             </svg>
         </div>
 
-        <h1><span class="title-cyan">DoYouLike</span><span class="title-pink">This?</span></h1>
+        <h1>DoYouLikeThis?</h1>
 
         <div id="landing-view">
             <p>The multiplayer TikTok guessing game. Watch a video from the lobby's feed and guess which of your friends liked it!</p>
@@ -534,9 +568,7 @@
                 <svg class="login-banner-logo" viewBox="0 0 24 24">
                     <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-2.901 2.893 2.897 2.897 0 0 1-2.895-2.9 2.897 2.897 0 0 1 2.895-2.892c.32 0 .633.06.924.173V9.41a6.33 6.33 0 0 0-.924-.068 6.338 6.338 0 0 0-6.332 6.335 6.338 6.338 0 0 0 6.332 6.335 6.33 6.33 0 0 0 6.331-6.335V9.062a8.163 8.163 0 0 0 4.785 1.523v-3.83a4.79 4.79 0 0 1-.905-.069z"/>
                 </svg>
-                <div class="login-banner-text">
-                    Log in with<br>TikTok
-                </div>
+                <span>Log in with TikTok</span>
             </a>
         </div>
 
@@ -587,7 +619,10 @@
 
         <div id="game-view" class="hidden">
             <div class="game-card">
-                <div class="game-title">Round 1 • Who liked this TikTok?</div>
+                <div class="game-header-bar">
+                    <div id="round-indicator" class="game-title">Round 1 of 5</div>
+                    <div id="score-indicator" class="score-tracker">Score: 0</div>
+                </div>
                 
                 <div id="video-container" class="video-container"></div>
 
@@ -599,14 +634,36 @@
                 <div class="options-grid" id="options-grid"></div>
             </div>
 
+            <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                <button id="next-round-btn" class="btn hidden" onclick="nextRound()">
+                    Next Round ➔
+                </button>
+            </div>
+
             <div style="display: flex; gap: 10px;">
                 <button class="btn btn-secondary" onclick="returnToLobby()">
                     Leave Game to Lobby
                 </button>
                 <button class="btn btn-debug" style="margin-top: 0; width: auto;" onclick="toggleDebugTarget()">
-                    🐛 Toggle Debug Info
+                    🐛 Toggle Debug
                 </button>
             </div>
+        </div>
+
+        <div id="results-view" class="hidden">
+            <div class="results-box">
+                <h2>Game Over!</h2>
+                <p>Here is your final score after 5 rounds:</p>
+                <div id="final-score" class="results-score">0 / 5</div>
+                <p id="final-eval">Keep practicing to know your friends better!</p>
+            </div>
+
+            <button class="btn" onclick="startGame()">
+                Play Again
+            </button>
+            <button class="btn btn-secondary" style="margin-top: 10px;" onclick="returnToLobby()">
+                Return to Lobby
+            </button>
         </div>
 
         <div class="footer">
@@ -617,7 +674,7 @@
     </div>
 
     <script>
-        const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2338bdf8'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
+        const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
         const TIKTOK_VIDEOS = [
             "https://vm.tiktok.com/ZN8YXBfe7/",
@@ -628,6 +685,8 @@
             "https://vm.tiktok.com/ZN8YXSyRT/",
             "https://vm.tiktok.com/ZN8YXkUyw/"
         ];
+
+        const TOTAL_ROUNDS = 5;
 
         function formatAvatarUrl(url) {
             if (!url) return FALLBACK_AVATAR;
@@ -647,6 +706,9 @@
         let currentTargetPlayer = null;
         let isDebugVisible = false;
         let answerSubmitted = false;
+        let currentRound = 1;
+        let score = 0;
+        let roundVideos = [];
         const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
 
         const urlParams = new URLSearchParams(window.location.search);
@@ -772,45 +834,74 @@
             });
         }
 
-        function loadVideoPlayer(url) {
+        function loadVideoEmbed(url) {
             const container = document.getElementById('video-container');
             container.innerHTML = '';
 
-            if (url.includes('tiktok.com')) {
-                const iframe = document.createElement('iframe');
-                iframe.src = url;
-                iframe.allow = "autoplay; encrypted-media; picture-in-picture";
-                iframe.allowFullscreen = true;
-                container.appendChild(iframe);
-            } else {
-                const video = document.createElement('video');
-                video.autoplay = true;
-                video.loop = true;
-                video.muted = true;
-                video.playsInline = true;
-                video.controls = true;
-                
-                const source = document.createElement('source');
-                source.src = url;
-                source.type = 'video/mp4';
-                
-                video.appendChild(source);
-                container.appendChild(video);
-            }
+            const blockquote = document.createElement('blockquote');
+            blockquote.className = 'tiktok-embed';
+            blockquote.setAttribute('cite', url);
+            blockquote.setAttribute('data-video-id', '');
+            blockquote.style.maxWidth = '100%';
+            
+            const section = document.createElement('section');
+            const a = document.createElement('a');
+            a.target = '_blank';
+            a.href = url;
+            a.innerText = url;
+            
+            section.appendChild(a);
+            blockquote.appendChild(section);
+            container.appendChild(blockquote);
+
+            const oldScript = document.getElementById('tiktok-embed-script');
+            if (oldScript) oldScript.remove();
+
+            const script = document.createElement('script');
+            script.id = 'tiktok-embed-script';
+            script.src = 'https://www.tiktok.com/embed.js';
+            script.async = true;
+            
+            script.onerror = function() {
+                container.innerHTML = `
+                    <div class="fallback-card">
+                        <div style="font-size: 2rem;">🎵</div>
+                        <div style="font-weight: 700; font-size: 1rem;">TikTok Video Loaded</div>
+                        <a href="${url}" target="_blank" class="btn btn-secondary" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">
+                            ↗️ Open Video in TikTok
+                        </a>
+                    </div>
+                `;
+            };
+
+            document.body.appendChild(script);
         }
 
         function startGame() {
             if (players.length < 3) return;
-            answerSubmitted = false;
+            
+            currentRound = 1;
+            score = 0;
+            roundVideos = [...TIKTOK_VIDEOS].sort(() => 0.5 - Math.random());
 
             document.getElementById('lobby-view').classList.add('hidden');
+            document.getElementById('results-view').classList.add('hidden');
             document.getElementById('game-view').classList.remove('hidden');
+
+            loadRound();
+        }
+
+        function loadRound() {
+            answerSubmitted = false;
+            document.getElementById('next-round-btn').classList.add('hidden');
+            document.getElementById('round-indicator').innerText = `Round ${currentRound} of ${TOTAL_ROUNDS}`;
+            document.getElementById('score-indicator').innerText = `Score: ${score}`;
 
             currentTargetPlayer = players[Math.floor(Math.random() * players.length)];
             document.getElementById('debug-target-name').innerText = `@${currentTargetPlayer.name}`;
 
-            const randomVideo = TIKTOK_VIDEOS[Math.floor(Math.random() * TIKTOK_VIDEOS.length)];
-            loadVideoPlayer(randomVideo);
+            const videoUrl = roundVideos[currentRound - 1];
+            loadVideoEmbed(videoUrl);
 
             const optionsGrid = document.getElementById('options-grid');
             optionsGrid.innerHTML = '';
@@ -840,6 +931,8 @@
 
             if (selectedPlayer.id === currentTargetPlayer.id) {
                 btnElement.classList.add('correct');
+                score++;
+                document.getElementById('score-indicator').innerText = `Score: ${score}`;
                 showToast(`Correct! @${currentTargetPlayer.name} liked this video.`, 'success');
             } else {
                 btnElement.classList.add('incorrect');
@@ -849,6 +942,39 @@
                     }
                 });
                 showToast(`Incorrect! @${currentTargetPlayer.name} liked this video.`, 'error');
+            }
+
+            const nextBtn = document.getElementById('next-round-btn');
+            if (currentRound < TOTAL_ROUNDS) {
+                nextBtn.innerText = 'Next Round ➔';
+            } else {
+                nextBtn.innerText = 'View Final Results 🏆';
+            }
+            nextBtn.classList.remove('hidden');
+        }
+
+        function nextRound() {
+            if (currentRound < TOTAL_ROUNDS) {
+                currentRound++;
+                loadRound();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('game-view').classList.add('hidden');
+            document.getElementById('results-view').classList.remove('hidden');
+
+            document.getElementById('final-score').innerText = `${score} / ${TOTAL_ROUNDS}`;
+            
+            const evalText = document.getElementById('final-eval');
+            if (score === 5) {
+                evalText.innerText = "🏆 Perfect Score! You know your friends' taste inside out!";
+            } else if (score >= 3) {
+                evalText.innerText = "👏 Great job! You really know your friends well.";
+            } else {
+                evalText.innerText = "😅 Better luck next time! Watch more TikToks together.";
             }
         }
 
@@ -863,9 +989,8 @@
         }
 
         function returnToLobby() {
-            const container = document.getElementById('video-container');
-            container.innerHTML = '';
             document.getElementById('game-view').classList.add('hidden');
+            document.getElementById('results-view').classList.add('hidden');
             document.getElementById('lobby-view').classList.remove('hidden');
         }
     </script>
