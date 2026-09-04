@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -481,7 +481,7 @@
             background: rgba(37, 244, 238, 0.08);
             border: 1px dashed var(--cyan);
             color: var(--text-main);
-            padding: 10px 14px;
+            padding: 12px 14px;
             border-radius: 10px;
             font-size: 0.85rem;
             margin-bottom: 1rem;
@@ -627,7 +627,7 @@
                 <div id="debug-target-box" class="debug-info-box hidden">
                     <div>🐛 <strong>DEBUG PANEL:</strong></div>
                     <div style="margin-top: 4px;">Target User: <strong id="debug-target-name">@user</strong></div>
-                    <div style="margin-top: 4px;">TikTok URL: <a id="debug-video-link" href="#" target="_blank">---</a></div>
+                    <div style="margin-top: 6px;">TikTok Link: <a id="debug-video-link" href="#" target="_blank" rel="noopener">---</a></div>
                 </div>
 
                 <div class="game-question">Guess which lobby member liked this video:</div>
@@ -676,15 +676,15 @@
     <script>
         const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
-        // URLs canónicas de TikTok con ID numérico completo requeridas para embed.js
+        // Enlaces acortados indicados por el usuario
         const TIKTOK_VIDEOS = [
-            "https://www.tiktok.com/@tiktok/video/7106594312293027114",
-            "https://www.tiktok.com/@khaby.lame/video/6963912204517313798",
-            "https://www.tiktok.com/@zachking/video/6768504823336963334",
-            "https://www.tiktok.com/@bellapoarch/video/6862153058223197445",
-            "https://www.tiktok.com/@charlidamelio/video/6938928096238324998",
-            "https://www.tiktok.com/@addisonre/video/6883204961556041221",
-            "https://www.tiktok.com/@fcbarcelona/video/7200112233442118918"
+            "https://vm.tiktok.com/ZN8YXBfe7/",
+            "https://vm.tiktok.com/ZN8YXNcCS/",
+            "https://vm.tiktok.com/ZN8YXkcHh/",
+            "https://vm.tiktok.com/ZN8YX2RpF/",
+            "https://vm.tiktok.com/ZN8YXjfVT/",
+            "https://vm.tiktok.com/ZN8YXSyRT/",
+            "https://vm.tiktok.com/ZN8YXkUyw/"
         ];
 
         const TOTAL_ROUNDS = 5;
@@ -845,14 +845,17 @@
             const blockquote = document.createElement('blockquote');
             blockquote.className = 'tiktok-embed';
             blockquote.setAttribute('cite', url);
-            blockquote.setAttribute('data-video-id', videoId);
+            if (videoId) {
+                blockquote.setAttribute('data-video-id', videoId);
+            }
             blockquote.style.maxWidth = '100%';
             
             const section = document.createElement('section');
             const a = document.createElement('a');
             a.target = '_blank';
+            a.rel = 'noopener';
             a.href = url;
-            a.innerText = url;
+            a.innerText = 'Ver vídeo en TikTok: ' + url;
             
             section.appendChild(a);
             blockquote.appendChild(section);
@@ -892,7 +895,7 @@
             currentTargetPlayer = players[Math.floor(Math.random() * players.length)];
             const currentVideoUrl = roundVideos[currentRound - 1];
 
-            // Actualizar panel de Debug
+            // Actualizar el panel de Debug con el enlace exacto al TikTok
             document.getElementById('debug-target-name').innerText = `@${currentTargetPlayer.name}`;
             const debugLink = document.getElementById('debug-video-link');
             debugLink.href = currentVideoUrl;
