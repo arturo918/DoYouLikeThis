@@ -676,15 +676,9 @@
     <script>
         const FALLBACK_AVATAR = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 24 24' fill='%2325f4ee'><circle cx='12' cy='8' r='4'/><path d='M12 14c-6.1 0-8 4-8 4v2h16v-2s-1.9-4-8-4z'/></svg>";
 
-        // Enlaces acortados indicados por el usuario
+        // URL canónica para las pruebas
         const TIKTOK_VIDEOS = [
-            "https://vm.tiktok.com/ZN8YXBfe7/",
-            "https://vm.tiktok.com/ZN8YXNcCS/",
-            "https://vm.tiktok.com/ZN8YXkcHh/",
-            "https://vm.tiktok.com/ZN8YX2RpF/",
-            "https://vm.tiktok.com/ZN8YXjfVT/",
-            "https://vm.tiktok.com/ZN8YXSyRT/",
-            "https://vm.tiktok.com/ZN8YXkUyw/"
+            "https://www.tiktok.com/@american_home_inspector/video/7679183824009383201"
         ];
 
         const TOTAL_ROUNDS = 5;
@@ -851,13 +845,6 @@
             blockquote.style.maxWidth = '100%';
             
             const section = document.createElement('section');
-            const a = document.createElement('a');
-            a.target = '_blank';
-            a.rel = 'noopener';
-            a.href = url;
-            a.innerText = 'Ver vídeo en TikTok: ' + url;
-            
-            section.appendChild(a);
             blockquote.appendChild(section);
             container.appendChild(blockquote);
 
@@ -893,9 +880,8 @@
             document.getElementById('score-indicator').innerText = `Score: ${score}`;
 
             currentTargetPlayer = players[Math.floor(Math.random() * players.length)];
-            const currentVideoUrl = roundVideos[currentRound - 1];
+            const currentVideoUrl = roundVideos[(currentRound - 1) % roundVideos.length];
 
-            // Actualizar el panel de Debug con el enlace exacto al TikTok
             document.getElementById('debug-target-name').innerText = `@${currentTargetPlayer.name}`;
             const debugLink = document.getElementById('debug-video-link');
             debugLink.href = currentVideoUrl;
